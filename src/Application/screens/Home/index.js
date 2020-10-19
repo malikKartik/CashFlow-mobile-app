@@ -1,5 +1,6 @@
 import React from 'react';
-import {AsyncStorage, Button, Text, View} from 'react-native';
+import {AsyncStorage, Text, View} from 'react-native';
+import Button from '../../components/Button';
 
 const Home = () => {
   const signup = () => {};
