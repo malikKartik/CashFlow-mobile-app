@@ -45,7 +45,7 @@ const stylesheet = (props, checked) => {
     box: {
       height: props.height ? props.height : 16,
       width: props.width ? props.width : 16,
-      borderRadius: 3,
+      borderRadius: 5,
       borderWidth: 1,
       borderColor: '#A7A7A7',
       backgroundColor: checked
