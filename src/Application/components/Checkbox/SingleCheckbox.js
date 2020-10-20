@@ -8,7 +8,7 @@ const SingleCheckBox = (props) => {
   const styles = stylesheet(props, checked);
   const handleChecked = async () => {
     await setChecked(!checked);
-    props.onChange({id: props.id, checked: !checked});
+    if (props.onChange) props.onChange({id: props.id, checked: !checked});
   };
   return (
     <View style={styles.checkbox}>

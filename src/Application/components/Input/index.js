@@ -15,7 +15,7 @@ const Input = (props) => {
             onChangeText={(e) => props.onChangeText(e)}
             value={props.value}
             textContentType={
-              props.contentType ? props.contentType : null
+              props.contentType ? props.contentType : 'none'
             }></TextInput>
         </View>
       ) : (
@@ -25,7 +25,7 @@ const Input = (props) => {
           onChangeText={(e) => props.onChangeText(e)}
           value={props.value}
           textContentType={
-            props.contentType ? props.contentType : null
+            props.contentType ? props.contentType : 'none'
           }></TextInput>
       )}
     </View>
@@ -40,7 +40,7 @@ const styleSheet = (props) => {
     },
     inputComp: {
       width: '100%',
-      height: 37,
+      height: props.height ? props.height : 37,
       borderColor: 'rgba(0, 0, 0, 0.29)',
       borderRadius: props.borderRadius ? props.borderRadius : 7,
       borderWidth: 1,
@@ -49,12 +49,14 @@ const styleSheet = (props) => {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    label: {
-      fontSize: 12,
-      fontFamily: 'Roboto-Regular',
-      marginBottom: 6,
-      marginLeft: 6,
-    },
+    label: props.labelStyle
+      ? {...props.labelStyle, marginBottom: 6, marginLeft: 6}
+      : {
+          fontSize: 12,
+          fontFamily: 'Roboto-Regular',
+          marginBottom: 6,
+          marginLeft: 6,
+        },
     iconInput: {
       height: 37,
       display: 'flex',
@@ -63,7 +65,7 @@ const styleSheet = (props) => {
     },
     iconInputField: {
       width: '100%',
-      height: 37,
+      height: props.height ? props.height : 37,
       borderColor: 'rgba(0, 0, 0, 0.29)',
       borderRadius: props.borderRadius ? props.borderRadius : 7,
       borderWidth: 1,

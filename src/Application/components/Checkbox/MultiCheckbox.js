@@ -3,7 +3,7 @@ import SingleCheckBox from './SingleCheckbox';
 
 const MultiCheckbox = (props) => {
   const handleClick = (e) => {
-    props.onChange({id: e.id, checked: e.checked});
+    if (props.onChange) props.onChange({id: e.id, checked: e.checked});
   };
   return props.options.map((item) => {
     return (
