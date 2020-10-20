@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {useState} from 'react';
 import {AsyncStorage, Button, Text, View} from 'react-native';
 import Input from '../../components/Input';
@@ -5,6 +6,11 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Icon from 'react-native-vector-icons/dist/EvilIcons';
 import Checkbox from '../../components/Checkbox';
 import DropDown from '../../components/Dropdown';
+=======
+import React from 'react';
+import {AsyncStorage, Text, View} from 'react-native';
+import Button from '../../components/Button';
+>>>>>>> cccbbe808be1acfb7d748ebd8876ad7f5576024c
 
 const Home = () => {
   const [text, setText] = useState('');
