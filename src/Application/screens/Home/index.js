@@ -4,7 +4,7 @@ import Checkbox from '../../components/Checkbox';
 const Home = () => {
   const signup = () => {};
   return (
-    <View>
+    <View style={{marginHorizontal: '5%'}}>
       <Text>Home page</Text>
       <Checkbox
         height={25}
