@@ -1,43 +1,112 @@
-import React from 'react';
-import {Picker} from '@react-native-community/picker';
-import {View, Text, StyleSheet} from 'react-native';
-
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+const {height, width} = Dimensions.get('window');
+import Backdrop from '../Backdrop';
 const Dropdown = (props) => {
-  const styles = stylesheet(props);
+  const [selectedValue, setSelectedValue] = useState(props.selectedValue.label);
+  const [show, setShow] = useState(false);
+  const styles = stylesheet(props, show);
+  const showOptions = () => {
+    setShow(!show);
+  };
+  const hideOptions = () => {
+    setShow(false);
+  };
+  const handleSelectOption = (id, label) => {
+    setSelectedValue(label);
+    setShow(false);
+    if (props.onChange) props.onChange({id: id, label: label});
+  };
   return (
     <View>
-      <Picker
-        selectedValue={props.value}
-        style={styles.dropdown}
-        onValueChange={(itemValue, itemIndex) => props.onChange(itemValue)}>
-        {props.options.map((item) => {
-          return (
-            <Picker.Item
-              label={item.label}
-              value={item.value}
-              key={Math.random()}
-            />
-          );
-        })}
-      </Picker>
+      <Backdrop onPress={hideOptions}></Backdrop>
+      <TouchableWithoutFeedback style={styles.dropdown} onPress={showOptions}>
+        <Text style={styles.label}>{selectedValue}</Text>
+        <AntDesign
+          name={show ? 'caretup' : 'caretdown'}
+          size={15}
+          color={props.iconColor ? props.iconColor : 'black'}
+          style={{position: 'absolute', right: 10}}></AntDesign>
+      </TouchableWithoutFeedback>
+      {show ? (
+        <ScrollView
+          style={styles.options}
+          contentContainerStyle={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {props.options.map((item) => {
+            return (
+              <View
+                onStartShouldSetResponder={() =>
+                  handleSelectOption(item.id, item.label)
+                }
+                style={styles.option}
+                key={item.id}>
+                <Text style={styles.label}>{item.label}</Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+      ) : null}
     </View>
   );
 };
 
-const stylesheet = (props) => {
+const stylesheet = (props, show) => {
   return StyleSheet.create({
     dropdown: {
-      width: '100%',
-      height: 37,
-      borderColor: 'rgba(0, 0, 0, 0.29)',
-      borderRadius: props.borderRadius ? props.borderRadius : 7,
-      borderWidth: 1,
+      width: props.width ? props.width : '100%',
+      height: props.height ? props.height : 37,
       padding: 10,
       display: 'flex',
       justifyContent: 'center',
+      borderTopLeftRadius: props.borderRadius ? props.borderRadius : 5,
+      borderTopRightRadius: props.borderRadius ? props.borderRadius : 5,
+      borderBottomLeftRadius: show
+        ? 0
+        : props.borderRadius
+        ? props.borderRadius
+        : 5,
+      borderBottomRightRadius: show
+        ? 0
+        : props.borderRadius
+        ? props.borderRadius
+        : 5,
       alignItems: 'center',
-      elevation: 5,
+      backgroundColor: props.backgroundColor ? props.backgroundColor : 'white',
+      flexDirection: 'row',
+      elevation: 2,
     },
+    options: {
+      width: props.width ? props.width : '100%',
+      maxHeight: props.maxHeight ? props.maxHeight : 140,
+      borderBottomLeftRadius: props.borderRadius ? props.borderRadius : 5,
+      borderBottomRightRadius: props.borderRadius ? props.borderRadius : 5,
+      backgroundColor: props.optionsBackgroundColor
+        ? props.optionsBackgroundColor
+        : 'white',
+      position: 'absolute',
+      zIndex: 100,
+      top: props.height ? props.height : 37,
+      elevation: 2,
+    },
+    option: {
+      height: props.optionHeight ? props.optionHeight : 35,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderBottomLeftRadius: props.borderRadius ? props.borderRadius : 5,
+      borderBottomRightRadius: props.borderRadius ? props.borderRadius : 5,
+    },
+    label: props.optionStyle
+      ? props.optionStyle
+      : {
+          fontFamily: 'Roboto-Regular',
+          fontSize: 14,
+        },
   });
 };
 
