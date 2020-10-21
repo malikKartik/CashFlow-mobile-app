@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import Button from '../Button';
+import {
+  TouchableWithoutFeedback,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 const {height, width} = Dimensions.get('window');
 import Backdrop from '../Backdrop';
@@ -40,13 +46,13 @@ const Dropdown = (props) => {
           }}>
           {props.options.map((item) => {
             return (
-              <View
-                onStartShouldSetResponder={() =>
-                  handleSelectOption(item.id, item.label)
-                }
-                style={styles.option}
-                key={item.id}>
-                <Text style={styles.label}>{item.label}</Text>
+              <View style={styles.option} key={item.id}>
+                <Button
+                  width="100%"
+                  onPress={() => handleSelectOption(item.id, item.label)}
+                  buttonColor="white"
+                  textColor="black"
+                  title={item.label}></Button>
               </View>
             );
           })}
@@ -95,6 +101,7 @@ const stylesheet = (props, show) => {
       elevation: 2,
     },
     option: {
+      width: '100%',
       height: props.optionHeight ? props.optionHeight : 35,
       justifyContent: 'center',
       alignItems: 'center',
