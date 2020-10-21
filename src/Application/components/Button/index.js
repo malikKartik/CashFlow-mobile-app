@@ -17,9 +17,11 @@ const Button = (props) => {
 
   //   Local components
   const BlockButton = () => (
-    <TouchableOpacity onPress={props.onPress} style={styles.container}>
-      <Text style={styles.text}>{props.title}</Text>
-    </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={props.onPress}>
+      <View style={styles.container}>
+        <Text style={styles.text}>{props.title}</Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
   const TextButton = () => (
     <TouchableWithoutFeedback onPress={props.onPress}>
@@ -46,7 +48,7 @@ const styleSheet = (props) => {
     container: {
       width: props.width ? props.width : 100,
       height: props.height ? props.height : 35,
-      backgroundColor: props.ButtonColor ? props.ButtonColor : '#9392ff',
+      backgroundColor: props.buttonColor ? props.buttonColor : '#9392ff',
       borderRadius: props.borderRadius ? props.borderRadius : 5,
       justifyContent: 'center',
       alignItems: 'center',
@@ -54,13 +56,13 @@ const styleSheet = (props) => {
     containerTextButton: {
       width: props.width ? props.width : 100,
       height: props.height ? props.height : 25,
-      backgroundColor: props.ButtonColor ? props.ButtonColor : '#9392ff00',
+      backgroundColor: props.buttonColor ? props.buttonColor : '#9392ff00',
       borderRadius: props.borderRadius ? props.borderRadius : 5,
       justifyContent: 'center',
       alignItems: 'center',
     },
     text: {
-      color: 'white',
+      color: props.textColor ? props.textColor : 'white',
     },
     textTextButton: {
       color: '#9392ff',
