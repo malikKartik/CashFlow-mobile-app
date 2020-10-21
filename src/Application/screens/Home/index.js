@@ -6,13 +6,6 @@ const Home = () => {
   return (
     <View>
       <Text>Home page</Text>
-      <Checkbox
-        height={25}
-        width={25}
-        label="Kartik"
-        reverse={true}
-        checkedColor="blue"
-        labelStyle={{marginLeft: 10}}></Checkbox>
     </View>
   );
 };
