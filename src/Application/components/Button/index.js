@@ -65,7 +65,7 @@ const styleSheet = (props) => {
       color: props.textColor ? props.textColor : 'white',
     },
     textTextButton: {
-      color: '#9392ff',
+      color: props.textColor ? props.textColor : '#9392ff',
     },
   });
 };
