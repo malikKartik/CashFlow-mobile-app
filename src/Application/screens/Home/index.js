@@ -1,22 +1,13 @@
 import React, {useState} from 'react';
-import {AsyncStorage, Button, Text, View} from 'react-native';
-import DropDown from '../../components/Dropdown';
+import {AsyncStorage, Button, View} from 'react-native';
+import Text from '../../components/Text';
 
 const Home = () => {
-  const signup = () => {};
+  const [activeTab, setActiveTab] = useState('left');
+
   return (
     <View style={{marginHorizontal: '5%'}}>
-      <Text>Home page</Text>
-      <DropDown
-        selectedValue={{id: 1, label: 'A'}}
-        options={[
-          {id: 1, label: 'A'},
-          {id: 2, label: 'B'},
-          {id: 3, label: 'C'},
-          {id: 4, label: 'D'},
-          {id: 5, label: 'E'},
-          {id: 6, label: 'F'},
-        ]}></DropDown>
+      <Text>Home page!</Text>
     </View>
   );
 };
