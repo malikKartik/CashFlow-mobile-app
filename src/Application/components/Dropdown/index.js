@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import Button from '../Button';
 import {
@@ -13,12 +13,21 @@ import Backdrop from '../Backdrop';
 const Dropdown = (props) => {
   const [selectedValue, setSelectedValue] = useState(props.selectedValue.label);
   const [show, setShow] = useState(false);
+  const [flag, setFlag] = useState(false);
   const styles = stylesheet(props, show);
   const showOptions = () => {
-    setShow(!show);
+    if (!show && !flag) setShow(true);
+    else {
+      setShow(false);
+      setFlag(false);
+    }
   };
   const hideOptions = () => {
     setShow(false);
+    setFlag(true);
+    setTimeout(() => {
+      setFlag(flag);
+    }, 500);
   };
   const handleSelectOption = (id, label) => {
     setSelectedValue(label);
@@ -27,7 +36,10 @@ const Dropdown = (props) => {
   };
   return (
     <View>
-      <Backdrop onPress={hideOptions}></Backdrop>
+      <Backdrop
+        onPress={hideOptions}
+        backgroundColor={props.backdropColor}
+        show={show}></Backdrop>
       <TouchableWithoutFeedback style={styles.dropdown} onPress={showOptions}>
         <Text style={styles.label}>{selectedValue}</Text>
         <AntDesign
@@ -86,6 +98,8 @@ const stylesheet = (props, show) => {
       backgroundColor: props.backgroundColor ? props.backgroundColor : 'white',
       flexDirection: 'row',
       elevation: 2,
+      borderBottomWidth: show ? 0.5 : 0,
+      borderBottomColor: '#E5E5E5',
     },
     options: {
       width: props.width ? props.width : '100%',
@@ -96,7 +110,7 @@ const stylesheet = (props, show) => {
         ? props.optionsBackgroundColor
         : 'white',
       position: 'absolute',
-      zIndex: 100,
+      zIndex: 200,
       top: props.height ? props.height : 37,
       elevation: 2,
     },
