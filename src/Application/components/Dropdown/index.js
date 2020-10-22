@@ -21,7 +21,11 @@ const Dropdown = (props) => {
   };
   return (
     <View>
-      <Backdrop onPress={hideOptions}></Backdrop>
+      {show ? (
+        <Backdrop
+          onPress={hideOptions}
+          backgroundColor={props.backdropColor}></Backdrop>
+      ) : null}
       <TouchableWithoutFeedback style={styles.dropdown} onPress={showOptions}>
         <Text style={styles.label}>{selectedValue}</Text>
         <AntDesign
@@ -80,6 +84,7 @@ const stylesheet = (props, show) => {
       backgroundColor: props.backgroundColor ? props.backgroundColor : 'white',
       flexDirection: 'row',
       elevation: 2,
+      zIndex: 200,
     },
     options: {
       width: props.width ? props.width : '100%',
