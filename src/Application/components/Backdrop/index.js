@@ -3,11 +3,11 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 const {height, width} = Dimensions.get('window');
 const Backdrop = (props) => {
   const styles = styleSheet(props);
-  return (
-    <View style={styles.container} onStartShouldSetResponder={props.onPress}>
-      {props.children}
-    </View>
-  );
+  return props.show ? (
+    <View
+      style={styles.container}
+      onStartShouldSetResponder={props.onPress}></View>
+  ) : null;
 };
 
 const styleSheet = (props) => {
@@ -20,9 +20,12 @@ const styleSheet = (props) => {
       right: 0,
       width: width,
       height: height,
-      backgroundColor: props.backgroundColor ? props.backgroundColor : 'red',
+      backgroundColor: props.backgroundColor
+        ? props.backgroundColor
+        : 'transparent',
       justifyContent: 'center',
       alignItems: 'center',
+      zIndex: 200,
     },
   });
 };
