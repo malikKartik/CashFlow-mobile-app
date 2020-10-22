@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import {AsyncStorage, Button, Text, View} from 'react-native';
+<<<<<<< HEAD
 import Checkbox from '../../components/Checkbox';
 import Dropdown from '../../components/Dropdown';
 import Backdrop from '../../components/Backdrop';
+=======
+import DropDown from '../../components/Dropdown';
+
+>>>>>>> 057d045ba14b04fe3fadaf8cfe0b243f7b672d5e
 const Home = () => {
   const [options, setOptions] = useState([
     {label: 'Java', id: '1'},
