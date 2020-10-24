@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import BottomNav from './screens/BottomNav';
-
+import Team from './screens/Team';
 const navigatorTheme = {
   ...DefaultTheme,
   colors: {
@@ -34,6 +34,7 @@ const Application = (props) => {
         ) : (
           <>
             <Stack.Screen name="Main Tab" component={BottomNav}></Stack.Screen>
+            <Stack.Screen name="Team" component={Team}></Stack.Screen>
           </>
         )}
       </Stack.Navigator>
