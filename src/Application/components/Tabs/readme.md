@@ -11,3 +11,6 @@
 | onTapLeft         | Yes      | -       | Function   | -              |
 | onTapMid          | Yes      | -       | Function   | -              |
 | onTapRight        | Yes      | -       | Function   | -              |
+| rightLabel        | Yes      | -       | String     | -              |
+| midLabel          | Yes      | -       | String     | -              |
+| leftLabel         | Yes      | -       | String     | -              |

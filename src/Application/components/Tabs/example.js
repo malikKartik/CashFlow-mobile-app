@@ -19,8 +19,11 @@ const Home = () => {
       <Tabs
         activeTab={activeTab}
         onTapLeft={onTapLeft}
+        leftLabel="Home"
         onTapMid={onTapMid}
-        onTapRight={onTapRight}></Tabs>
+        midLabel="Search"
+        onTapRight={onTapRight}
+        rightLabel="Profile"></Tabs>
     </View>
   );
 };

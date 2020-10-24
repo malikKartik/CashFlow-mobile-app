@@ -8,7 +8,7 @@ const Tabs = (props) => {
       <View style={styles.container}>
         <View style={styles.tabsContainer}>
           <Button
-            title="A"
+            title={props.leftLabel}
             height={30}
             width="32%"
             borderRadius={props.radius ? props.radius : 6}
@@ -32,7 +32,7 @@ const Tabs = (props) => {
             }
             onPress={props.onTapLeft}></Button>
           <Button
-            title="B"
+            title={props.midLabel}
             height={30}
             width="32%"
             borderRadius={props.radius ? props.radius : 6}
@@ -56,7 +56,7 @@ const Tabs = (props) => {
             }
             onPress={props.onTapMid}></Button>
           <Button
-            title="C"
+            title={props.rightLabel}
             height={30}
             width="32%"
             borderRadius={props.radius ? props.radius : 6}
