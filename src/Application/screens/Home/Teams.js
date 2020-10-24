@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Image, ScrollView, View} from 'react-native';
 import Card from '../../components/Card';
 import Input from '../../components/Input';
-
-const Teams = () => {
+import Button from '../../components/Button';
+const Teams = (props) => {
   const [search, setSearch] = useState('');
   return (
     <>
@@ -21,6 +21,7 @@ const Teams = () => {
           height={40}
           width="90%"></Input>
       </View>
+      <Button onPress={() => props.navigateTo('Team')} title="submit"></Button>
       <ScrollView style={{width: '90%'}}>
         <Card height={100} marginVertical={4}></Card>
         <Card height={100} marginVertical={4}></Card>

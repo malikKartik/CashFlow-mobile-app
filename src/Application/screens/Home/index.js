@@ -5,7 +5,7 @@ import Teams from './Teams';
 import Join from './JoinATeam';
 import Create from './CreateATeam';
 
-const Home = () => {
+const Home = (props) => {
   const [activeTab, setActiveTab] = useState('left');
   const onTapLeft = () => {
     setActiveTab('left');
@@ -29,7 +29,9 @@ const Home = () => {
         midLabel="Create a team"
         onTapRight={onTapRight}
         rightLabel="Join a team"></Tabs>
-      {activeTab === 'left' ? <Teams></Teams> : null}
+      {activeTab === 'left' ? (
+        <Teams navigateTo={props.navigation.navigate}></Teams>
+      ) : null}
       {activeTab === 'mid' ? <Create></Create> : null}
       {activeTab === 'right' ? <Join></Join> : null}
     </View>
