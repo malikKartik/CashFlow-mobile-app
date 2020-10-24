@@ -1,7 +1,19 @@
-import React from 'react';
-import {Button, Text, View, StyleSheet, AsyncStorage} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, AsyncStorage, Image} from 'react-native';
+import loginImage from '../../../../asstes/icons/loginimage.png';
+import * as colors from '../../constants/ColorConstants';
+import TextComp from '../../components/Text';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import google from '../../../../asstes/icons/google.png';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const Login = (props) => {
+  const [input, setInput] = useState({
+    email: '',
+    password: '',
+  });
+  const handleInputChange = (e) => {};
   const login = async () => {
     props.route.params.setIsLoggedIn(true);
     await AsyncStorage.setItem('isLoggedIn', 'true');
@@ -9,8 +21,42 @@ const Login = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text>Login page</Text>
-      <Button onPress={login} title="login" />
+      <View style={{width: '90%', height: '100%'}}>
+        <View style={styles.sub}>
+          <Image source={loginImage} style={styles.loginImage}></Image>
+        </View>
+        <TextComp type="heading" color={colors.primary} textAlign="center">
+          Login
+        </TextComp>
+        <Input
+          label="Email Id"
+          placeholder="Enter Email Address"
+          value={input.email}
+          onChangeText={handleInputChange}></Input>
+        <Input
+          label="Password"
+          placeholder="Enter Password"
+          value={input.password}
+          onChangeText={handleInputChange}></Input>
+        <View style={styles.button}>
+          <Button title="Login" type="button" onPress={login}></Button>
+        </View>
+        <View style={{width: '100%', alignItems: 'center', marginBottom: 20}}>
+          <Button
+            type="text"
+            textColor={colors.primary}
+            title="Not a member already? Signup!"
+            width="100%"
+            onPress={() => props.navigation.navigate('Signup')}></Button>
+        </View>
+        <TextComp type="sub-content" textAlign="center">
+          Login using:
+        </TextComp>
+        <TouchableWithoutFeedback
+          style={{alignSelf: 'center', marginTop: 16}}>
+          <Image source={google}></Image>
+        </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 };
@@ -18,12 +64,24 @@ const Login = (props) => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    height: '100%',
+    backgroundColor: 'white',
+    width: '100%',
     alignItems: 'center',
-    marginTop: 50,
-    flex: 1,
+  },
+  sub: {
+    width: '100%',
+    height: '30%',
+    marginTop: 20,
+  },
+  loginImage: {
     height: '100%',
     width: '100%',
+  },
+  button: {
+    marginTop: 28,
+    width: '100%',
+    alignItems: 'center',
   },
 });
 

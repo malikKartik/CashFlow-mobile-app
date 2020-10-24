@@ -42,6 +42,7 @@ const styleSheet = (props) => {
           ? 'green'
           : 'black'
         : 'black',
+      textAlign: props.textAlign ? props.textAlign : 'left',
     },
     heading: {
       fontSize: props.size ? props.size : 26,
