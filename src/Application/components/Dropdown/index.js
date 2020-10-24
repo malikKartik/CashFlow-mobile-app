@@ -35,7 +35,11 @@ const Dropdown = (props) => {
     if (props.onChange) props.onChange({id: id, label: label});
   };
   return (
-    <View>
+    <View
+      style={{
+        width: '100%',
+        marginVertical: props.marginVertical ? props.marginVertical : 10,
+      }}>
       <Backdrop
         onPress={hideOptions}
         backgroundColor={props.backdropColor}

@@ -37,6 +37,7 @@ const styleSheet = (props) => {
     inputContainer: {
       width: '100%',
       height: 55,
+      marginVertical: props.marginVertical ? props.marginVertical : 10,
     },
     inputComp: {
       width: '100%',

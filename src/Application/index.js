@@ -1,16 +1,23 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import BottomNav from './screens/BottomNav';
 
+const navigatorTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'white',
+  },
+};
 const Stack = createStackNavigator();
 
 const Application = (props) => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navigatorTheme}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,

@@ -14,3 +14,4 @@
 | maxHeight              | No       | 140     | Number           | -     |
 | optionHeight           | No       | 35      | Number           | -     |
 | optionStyle            | No       | -       | Object           | -     |
+| marginVertical         | No       | 10      | Number           | -     |
