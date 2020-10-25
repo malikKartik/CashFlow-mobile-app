@@ -53,6 +53,7 @@ const styleSheet = (props) => {
       justifyContent: 'center',
       alignItems: 'center',
       marginVertical: props.marginVertical ? props.marginVertical : 5,
+      alignSelf: props.alignSelf ? props.alignSelf : 'auto',
     },
     containerTextButton: {
       width: props.width ? props.width : 100,
@@ -61,6 +62,7 @@ const styleSheet = (props) => {
       borderRadius: props.borderRadius ? props.borderRadius : 5,
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: props.alignSelf ? props.alignSelf : 'auto',
     },
     text: {
       color: props.textColor ? props.textColor : 'white',

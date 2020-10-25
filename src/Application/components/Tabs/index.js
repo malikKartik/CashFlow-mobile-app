@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import Button from '../Button';
+import * as colors from '../../constants/ColorConstants';
 const Tabs = (props) => {
   const styles = styleSheet(props);
   return (
@@ -19,7 +20,7 @@ const Tabs = (props) => {
                   : 'white'
                 : props.backgroundColor
                 ? props.backgroundColor
-                : '#7290F8'
+                : colors.primary
             }
             textColor={
               props.activeTab === 'left'
@@ -43,7 +44,7 @@ const Tabs = (props) => {
                   : 'white'
                 : props.backgroundColor
                 ? props.backgroundColor
-                : '#7290F8'
+                : colors.primary
             }
             textColor={
               props.activeTab === 'mid'
@@ -67,7 +68,7 @@ const Tabs = (props) => {
                   : 'white'
                 : props.backgroundColor
                 ? props.backgroundColor
-                : '#7290F8'
+                : colors.primary
             }
             textColor={
               props.activeTab === 'right'
@@ -100,7 +101,7 @@ const styleSheet = (props) => {
       height: 35,
       backgroundColor: props.backgroundColor
         ? props.backgroundColor
-        : '#7290F8',
+        : colors.primary,
       borderRadius: props.radius ? props.radius : 6,
       justifyContent: 'space-around',
       alignItems: 'center',
