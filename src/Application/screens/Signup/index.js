@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, Image} from 'react-native';
+import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 import signupImage from '../../../../asstes/icons/signup.png';
 import TextComp from '../../components/Text/index';
 import Input from '../../components/Input/index';
@@ -24,11 +24,11 @@ const Signup = (props) => {
   };
   const signup = () => {};
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{alignItems: 'center'}}>
       <View style={{width: '90%', height: '100%'}}>
-        <View style={styles.sub}>
-          <Image source={signupImage} style={styles.signupImage}></Image>
-        </View>
+        <Image source={signupImage} style={styles.signupImage}></Image>
         <TextComp type="heading" color={colors.primary} textAlign="center">
           Signup
         </TextComp>
@@ -81,7 +81,7 @@ const Signup = (props) => {
           <Image source={google}></Image>
         </TouchableWithoutFeedback>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -89,17 +89,11 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     height: '100%',
-    backgroundColor: 'white',
     width: '100%',
-    alignItems: 'center',
-  },
-  sub: {
-    width: '100%',
-    height: '25%',
-    marginTop: 20,
+    marginTop: 22,
   },
   signupImage: {
-    height: '100%',
+    height: 200,
     width: '100%',
   },
   name: {
