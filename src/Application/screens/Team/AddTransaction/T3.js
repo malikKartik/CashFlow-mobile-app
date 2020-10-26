@@ -38,7 +38,12 @@ const T2 = () => {
                   each.paid = true;
                   each.amount = (totalAmount / temp.length).toString();
                 });
-                console.log(temp);
+                setAmount(temp);
+              } else {
+                const temp = [...amount];
+                temp.map((each) => {
+                  each.paid = false;
+                });
                 setAmount(temp);
               }
               setPaidEqually(!paidEqually);
