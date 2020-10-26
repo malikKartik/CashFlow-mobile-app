@@ -23,7 +23,9 @@ const TextComp = (props) => {
   }
   return (
     <>
-      <Text style={{...styles.main, ...textType}}>{props.children}</Text>
+      <Text style={{...styles.main, ...textType, ...props.style}}>
+        {props.children}
+      </Text>
     </>
   );
 };
