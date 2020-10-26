@@ -48,7 +48,7 @@ const styleSheet = (props) => {
     },
     heading: {
       fontSize: props.size ? props.size : 26,
-      marginVertical: 10,
+      marginVertical: props.marginVertical ? props.marginVertical : 10,
       fontFamily: 'Roboto-Light',
     },
     subHeading: {
@@ -56,7 +56,7 @@ const styleSheet = (props) => {
       fontFamily: 'Roboto-Light',
     },
     content: {
-      fontSize: props.size ? props.size : 20,
+      fontSize: props.size ? props.size : 18,
       fontFamily: 'Roboto-Regular',
     },
     subContent: {
