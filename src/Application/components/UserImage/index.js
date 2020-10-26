@@ -28,7 +28,7 @@ const styleSheet = (props) => {
       alignItems: 'center',
     },
     text: {
-      fontSize: 16,
+      fontSize: props.fontSize ? props.fontSize : 16,
       color: 'white',
       fontFamily: 'Roboto-Medium',
     },
