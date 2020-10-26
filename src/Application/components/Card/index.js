@@ -8,8 +8,14 @@ const Card = (props) => {
   }
   return (
     <View style={styles.innerContainer}>
-      <View style={styles.left}>{props.left}</View>
-      <View style={styles.right}>{props.right}</View>
+      {props.center ? (
+        <View style={styles.center}>{props.center}</View>
+      ) : (
+        <>
+          <View style={styles.left}>{props.left}</View>
+          <View style={styles.right}>{props.right}</View>
+        </>
+      )}
     </View>
   );
 };
@@ -25,9 +31,10 @@ const styleSheet = (props) => {
       borderRadius: props.borderRadius ? props.borderRadius : 7,
       marginVertical: props.marginVertical ? props.marginVertical : 0,
       padding: 10,
-      flexDirection: 'row',
+      flexDirection: props.center ? 'column' : 'row',
       alignItems: 'center',
       elevation: props.elevation ? props.elevation : 3,
+      justifyContent: props.center ? 'center' : 'flex-start',
     },
     left: {
       position: 'absolute',
@@ -36,6 +43,9 @@ const styleSheet = (props) => {
     right: {
       position: 'absolute',
       right: 10,
+    },
+    center: {
+      alignSelf: 'center',
     },
   });
 };
