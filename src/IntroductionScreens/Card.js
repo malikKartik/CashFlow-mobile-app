@@ -5,10 +5,8 @@ const Card = (props) => {
     <View
       style={{
         borderRadius: 5,
-        height: 300,
+        height: 400,
         width: '100%',
-        padding: 50,
-        marginTop: '6%',
       }}>
       <Image source={props.source} style={styles.image}></Image>
     </View>

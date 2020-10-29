@@ -52,7 +52,7 @@ const IntroductionsScreens = (props) => {
           onSnapToItem={(index) => setCurrentItem(index)}
         />
       </View>
-      <View style={{alignItems: 'center', height: 250}}>
+      <View style={{alignItems: 'center', height: 200}}>
         <TextComp type="content">CashFlow</TextComp>
         <TextComp type="heading" size={45} color={primary}>
           {data[currentItem].title}
