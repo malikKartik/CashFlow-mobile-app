@@ -4,11 +4,10 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const SingleCheckBox = (props) => {
-  const [checked, setChecked] = useState(props.checked);
+  const checked = props.checked;
   const styles = stylesheet(props, checked);
-  const handleChecked = async () => {
-    await setChecked(!checked);
-    if (props.onChange) props.onChange({id: props.id, checked: !checked});
+  const handleChecked = () => {
+    props.onChange({id: props.id, checked: !checked});
   };
   return (
     <View style={styles.checkbox}>

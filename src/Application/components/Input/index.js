@@ -1,12 +1,30 @@
 import React from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
-
+import TextCurrency from '../Text';
 const Input = (props) => {
   const styles = styleSheet(props);
   return (
     <View style={styles.inputContainer}>
       {props.label ? <Text style={styles.label}>{props.label}</Text> : null}
-      {props.icon ? (
+      {props.isAmount ? (
+        <>
+          <View style={styles.amountInput}>
+            <TextInput
+              style={styles.amountInputField}
+              placeholder={props.placeholder}
+              onChangeText={(e) => props.onChangeText(e, props.id)}
+              value={props.value}
+              textContentType={
+                props.contentType ? props.contentType : 'none'
+              }></TextInput>
+            <View style={styles.currency}>
+              <TextCurrency marginVertical={0} size={18} color="white">
+                {props.currency ? props.currency : 'INR'}
+              </TextCurrency>
+            </View>
+          </View>
+        </>
+      ) : props.icon ? (
         <View style={styles.iconInput}>
           <View style={styles.iconStyle}>{props.icon}</View>
           <TextInput
@@ -81,6 +99,34 @@ const styleSheet = (props) => {
     iconStyle: {
       position: 'absolute',
       left: 10,
+    },
+    amountInput: {
+      display: 'flex',
+      flexDirection: 'row',
+      width: '100%',
+    },
+    amountInputField: {
+      width: props.sizeMini ? '50%' : '80%',
+      height: props.height ? props.height : 37,
+      borderColor: 'rgba(0, 0, 0, 0.29)',
+      borderTopLeftRadius: props.borderRadius ? props.borderRadius : 7,
+      borderBottomLeftRadius: props.borderRadius ? props.borderRadius : 7,
+      borderWidth: 1,
+      paddingTop: 10,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    currency: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: props.sizeMini ? '50%' : '20%',
+      backgroundColor: props.currencyBgColor
+        ? props.currencyBgColor
+        : '#9392ff',
+      borderTopRightRadius: props.borderRadius ? props.borderRadius : 7,
+      borderBottomRightRadius: props.borderRadius ? props.borderRadius : 7,
     },
   });
 };
