@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet, AsyncStorage, Image} from 'react-native';
 import loginImage from '../../../../asstes/icons/loginimage.png';
 import * as colors from '../../constants/ColorConstants';
@@ -7,6 +7,9 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import google from '../../../../asstes/icons/google.png';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions';
+import {get} from '../../requests';
 
 const Login = (props) => {
   const [input, setInput] = useState({
@@ -15,9 +18,15 @@ const Login = (props) => {
   });
   const handleInputChange = (e) => {};
   const login = async () => {
-    props.route.params.setIsLoggedIn(true);
-    await AsyncStorage.setItem('isLoggedIn', 'true');
+    // props.onLogin({
+    //   username: 'Prerna',
+    //   password: 'sshjh',
+    // });
+    // props.route.params.setIsLoggedIn(true);
+    // await AsyncStorage.setItem('isLoggedIn', 'true');
   };
+
+  useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>
@@ -52,8 +61,7 @@ const Login = (props) => {
         <TextComp type="sub-content" textAlign="center">
           Login using:
         </TextComp>
-        <TouchableWithoutFeedback
-          style={{alignSelf: 'center', marginTop: 16}}>
+        <TouchableWithoutFeedback style={{alignSelf: 'center', marginTop: 16}}>
           <Image source={google}></Image>
         </TouchableWithoutFeedback>
       </View>
@@ -85,4 +93,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+const mapStateToProps = (state) => {
+  const auth = state.auth;
+  return {auth};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogin: ({username, password}) =>
+      dispatch(actions.login({username, password})),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
