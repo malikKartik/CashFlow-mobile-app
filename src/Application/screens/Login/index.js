@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, AsyncStorage, Image} from 'react-native';
 import loginImage from '../../../../asstes/icons/loginimage.png';
 import * as colors from '../../constants/ColorConstants';
@@ -18,13 +18,11 @@ const Login = (props) => {
   });
   const handleInputChange = (e) => {};
   const login = async () => {
-    // props.onLogin({
-    //   username: 'Prerna',
-    //   password: 'sshjh',
-    // });
+    // props.onLogin({username: 'Malik', password: 'Malik'});
     // props.route.params.setIsLoggedIn(true);
     // await AsyncStorage.setItem('isLoggedIn', 'true');
   };
+  useEffect(() => {}, []);
 
   useEffect(() => {}, []);
 
@@ -93,16 +91,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  const auth = state.auth;
-  return {auth};
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: ({username, password}) =>
       dispatch(actions.login({username, password})),
   };
+};
+const mapStateToProps = (state) => {
+  const auth = state.auth;
+  return {auth};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

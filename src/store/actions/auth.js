@@ -6,10 +6,11 @@ const loginHelper = (data) => {
     data,
   };
 };
+
 export const login = ({username, password}) => {
   return (dispatch) => {
     setTimeout(() => {
-      dispatch(loginHelper({token: 'fgjchjdcdhgjdkjdk89898767bhj'}));
+      dispatch(loginHelper({token: 'asdfkjh2n41l13284607125lfjasdf089'}));
     }, 2000);
   };
 };
@@ -29,7 +30,7 @@ export const stopLoading = () => {
 export const setError = (error) => {
   return {
     type: actionTypes.SET_ERROR,
-    error: error,
+    error,
   };
 };
 

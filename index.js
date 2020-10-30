@@ -22,7 +22,7 @@ export const store = createStore(
 const Application = () => {
   return (
     <Provider store={store}>
-      <App />
+      <App></App>
     </Provider>
   );
 };
