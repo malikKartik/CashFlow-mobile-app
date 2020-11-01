@@ -7,6 +7,7 @@ import * as colors from '../../constants/ColorConstants';
 import Button from '../../components/Button';
 import google from '../../../../asstes/icons/google.png';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {post} from '../../requests';
 
 const Signup = (props) => {
   const [input, setInput] = useState({
@@ -22,7 +23,28 @@ const Signup = (props) => {
       [type]: e,
     });
   };
-  const signup = () => {};
+  const signup = () => {
+    post({
+      route: '/api/users/signup',
+      body: {
+        ...input,
+      },
+    })
+      .then((data) => {
+        console.log(data);
+        setInput({
+          email: '',
+          password: '',
+          firstName: '',
+          lastName: '',
+          username: '',
+        });
+        props.navigation.navigate('Login');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <ScrollView
       style={styles.container}

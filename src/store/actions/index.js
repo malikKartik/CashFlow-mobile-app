@@ -1,1 +1,9 @@
-export {login, setLoading, stopLoading, setError, unsetError} from './auth';
+export {
+  login,
+  setLoading,
+  stopLoading,
+  setError,
+  unsetError,
+  validate,
+  logout,
+} from './auth';
