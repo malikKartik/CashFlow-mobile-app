@@ -5,9 +5,11 @@ import Card from '../../components/Card';
 import UserImage from '../../components/UserImage';
 import TextComp from '../../components/Text';
 import Button from '../../components/Button';
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions';
 
 const {height, width} = Dimensions.get('window');
-const Profile = () => {
+const Profile = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.design}></View>
@@ -51,6 +53,14 @@ const Profile = () => {
           width={width - 40}
           height={50}
           marginVertical={20}></Button>
+        <Button
+          title="Logout"
+          alignSelf="center"
+          width={width - 40}
+          height={50}
+          buttonColor={'red'}
+          onPress={props.onLogout}
+          marginVertical={0}></Button>
       </View>
     </View>
   );
@@ -82,4 +92,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogout: () => {
+      dispatch(actions.logout());
+    },
+  };
+};
+export default connect(null, mapDispatchToProps)(Profile);

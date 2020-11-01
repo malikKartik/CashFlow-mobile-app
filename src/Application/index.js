@@ -8,6 +8,8 @@ import BottomNav from './screens/BottomNav';
 import Team from './screens/Team';
 import AddMember from './screens/Team/AddMember';
 import RoomTransactions from './screens/Team/RoomTransactions';
+import {connect} from 'react-redux';
+
 const navigatorTheme = {
   ...DefaultTheme,
   colors: {
@@ -26,11 +28,7 @@ const Application = (props) => {
         }}>
         {!props.isLoggedIn ? (
           <>
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              initialParams={{setIsLoggedIn: props.setIsLoggedIn}}
-            />
+            <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
           </>
         ) : (
@@ -50,4 +48,10 @@ const Application = (props) => {
   );
 };
 
-export default Application;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(Application);

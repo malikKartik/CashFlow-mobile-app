@@ -16,9 +16,14 @@ const Login = (props) => {
     email: '',
     password: '',
   });
-  const handleInputChange = (e) => {};
+  const handleInputChange = (e, type) => {
+    setInput({
+      ...input,
+      [type]: e,
+    });
+  };
   const login = async () => {
-    // props.onLogin({username: 'Malik', password: 'Malik'});
+    props.onLogin({username: input.email, password: input.password});
     // props.route.params.setIsLoggedIn(true);
     // await AsyncStorage.setItem('isLoggedIn', 'true');
   };
@@ -37,12 +42,12 @@ const Login = (props) => {
           label="Email Id"
           placeholder="Enter Email Address"
           value={input.email}
-          onChangeText={handleInputChange}></Input>
+          onChangeText={(val) => handleInputChange(val, 'email')}></Input>
         <Input
           label="Password"
           placeholder="Enter Password"
           value={input.password}
-          onChangeText={handleInputChange}></Input>
+          onChangeText={(val) => handleInputChange(val, 'password')}></Input>
         <View style={styles.button}>
           <Button title="Login" type="button" onPress={login}></Button>
         </View>

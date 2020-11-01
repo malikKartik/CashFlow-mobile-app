@@ -1,4 +1,4 @@
-let dev = false;
+let dev = true;
 let url = '';
 if (dev) {
   url = 'http://192.168.43.195:3001';

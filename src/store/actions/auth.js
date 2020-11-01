@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import {post} from '../../Application/requests';
 
 const loginHelper = (data) => {
   return {
@@ -9,9 +10,39 @@ const loginHelper = (data) => {
 
 export const login = ({username, password}) => {
   return (dispatch) => {
-    setTimeout(() => {
-      dispatch(loginHelper({token: 'asdfkjh2n41l13284607125lfjasdf089'}));
-    }, 2000);
+    post({route: '/api/users/login', body: {username, password}})
+      .then((data) => {
+        dispatch(loginHelper(data));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};
+
+const validateHelper = (data) => {
+  return {
+    type: actionTypes.VALIDATE,
+    data,
+  };
+};
+
+export const validate = ({token, hideSplashScreen}) => {
+  return (dispatch) => {
+    post({route: '/api/users/validate', body: {token}})
+      .then((data) => {
+        dispatch(validateHelper(data));
+        hideSplashScreen();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};
+
+export const logout = () => {
+  return {
+    type: actionTypes.LOGOUT,
   };
 };
 
