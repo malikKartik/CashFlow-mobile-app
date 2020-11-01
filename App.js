@@ -14,19 +14,23 @@ const App = (props) => {
       const storageIntroducedVal = await AsyncStorage.getItem('isIntroduced');
       if (storageIntroducedVal === 'true') {
         setIsIntroduced(true);
+        if (!token || props.isLoggedIn) SplashScreen.hide();
         if (!token) return;
         if (props.isLoggedIn) return;
         await props.onValidate({
           token,
-          hideSplashScreen: () => SplashScreen.hide(),
+          hideSplashScreen: () => {
+            SplashScreen.hide();
+          },
         });
+      } else {
+        SplashScreen.hide();
       }
     };
     func();
   }, []);
 
   useEffect(() => {
-    console.log('I ran========================>');
     const func = async () => {
       if (props.isLoggedIn) {
         await AsyncStorage.setItem('token', props.token);

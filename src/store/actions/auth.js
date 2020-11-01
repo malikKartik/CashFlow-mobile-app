@@ -41,7 +41,6 @@ export const validate = ({token, hideSplashScreen}) => {
 };
 
 export const logout = () => {
-  console.log('Meeeeeeeeeeeeee');
   return {
     type: actionTypes.LOGOUT,
   };
