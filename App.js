@@ -19,7 +19,9 @@ const App = (props) => {
         if (props.isLoggedIn) return;
         await props.onValidate({
           token,
-          hideSplashScreen: () => SplashScreen.hide(),
+          hideSplashScreen: () => {
+            SplashScreen.hide();
+          },
         });
       } else {
         SplashScreen.hide();
