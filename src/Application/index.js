@@ -9,7 +9,6 @@ import Team from './screens/Team';
 import AddMember from './screens/Team/AddMember';
 import RoomTransactions from './screens/Team/RoomTransactions';
 import {connect} from 'react-redux';
-
 const navigatorTheme = {
   ...DefaultTheme,
   colors: {
@@ -53,5 +52,4 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.auth.isLoggedIn,
   };
 };
-
 export default connect(mapStateToProps)(Application);

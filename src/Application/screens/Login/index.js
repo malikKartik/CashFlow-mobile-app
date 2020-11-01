@@ -9,7 +9,7 @@ import google from '../../../../asstes/icons/google.png';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions';
-import {get} from '../../requests';
+import {post} from '../../requests';
 
 const Login = (props) => {
   const [input, setInput] = useState({
@@ -24,10 +24,7 @@ const Login = (props) => {
   };
   const login = async () => {
     props.onLogin({username: input.email, password: input.password});
-    // props.route.params.setIsLoggedIn(true);
-    // await AsyncStorage.setItem('isLoggedIn', 'true');
   };
-  useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>

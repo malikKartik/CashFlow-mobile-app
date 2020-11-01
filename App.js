@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import * as actions from './src/store/actions';
 
 const App = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isIntroduced, setIsIntroduced] = useState(false);
   useEffect(() => {
     const func = async () => {
@@ -32,7 +31,6 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log('===================');
     const func = async () => {
       if (props.isLoggedIn) {
         await AsyncStorage.setItem('token', props.token);
@@ -64,9 +62,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onValidate: ({token, hideSplashScreen}) => {
-      dispatch(actions.validate({token, hideSplashScreen}));
-    },
+    onValidate: ({token, hideSplashScreen}) =>
+      dispatch(actions.validate({token, hideSplashScreen})),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -58,9 +58,9 @@ const Profile = (props) => {
           alignSelf="center"
           width={width - 40}
           height={50}
+          marginVertical={0}
           buttonColor={'red'}
-          onPress={props.onLogout}
-          marginVertical={0}></Button>
+          onPress={props.onLogout}></Button>
       </View>
     </View>
   );
@@ -94,9 +94,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogout: () => {
-      dispatch(actions.logout());
-    },
+    onLogout: () => dispatch(actions.logout()),
   };
 };
+
 export default connect(null, mapDispatchToProps)(Profile);
