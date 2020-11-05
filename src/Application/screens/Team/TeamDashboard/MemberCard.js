@@ -18,9 +18,7 @@ const MemberCard = (props) => {
         }
         left={
           <>
-            <TextComp type="content">
-              {item.firstName + ' ' + item.lastName}
-            </TextComp>
+            <TextComp type="content">{item.username}</TextComp>
             <TextComp
               type="sub-content"
               amountType={

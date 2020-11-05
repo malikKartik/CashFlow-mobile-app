@@ -11,6 +11,8 @@ import TextComp from '../../../components/Text';
 import * as colors from '../../../constants/ColorConstants';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+import * as actions from '../../../../store/actions';
+import {connect} from 'react-redux';
 
 const AddMember = (props) => {
   const [username, setUsername] = useState('');
@@ -29,11 +31,21 @@ const AddMember = (props) => {
           Add Member
         </TextComp>
         <Input
-          label="Username"
-          placeholder="Enter username"
+          label="Username/Email"
+          placeholder="Enter username/Email"
           value={username}
           onChangeText={inputChangeHandler}></Input>
-        <Button title="Add" marginVertical={20} alignSelf="center"></Button>
+        <Button
+          title="Add"
+          marginVertical={20}
+          alignSelf="center"
+          onPress={async () => {
+            await props.onAddMember({
+              teamid: props.currentTeam,
+              username: username,
+            });
+            props.navigation.navigate('Team');
+          }}></Button>
       </View>
     </View>
   );
@@ -57,4 +69,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddMember;
+const mapStateToProps = (state) => {
+  return {
+    currentTeam: state.team.currentTeam,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAddMember: ({teamid, username}) =>
+      dispatch(actions.addMember({teamid, username})),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddMember);
