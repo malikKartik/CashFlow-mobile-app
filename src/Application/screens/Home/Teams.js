@@ -42,6 +42,7 @@ const Teams = (props) => {
           ? props.teams.map((team) => {
               return (
                 <Card
+                  key={team._id}
                   height={100}
                   marginVertical={4}
                   onPress={() => {

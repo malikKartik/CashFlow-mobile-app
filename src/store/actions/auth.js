@@ -31,8 +31,8 @@ export const validate = ({token, hideSplashScreen}) => {
   return (dispatch) => {
     post({route: '/api/users/validate', body: {token}})
       .then((data) => {
-        dispatch(validateHelper(data));
         hideSplashScreen();
+        dispatch(validateHelper(data));
       })
       .catch((e) => {
         console.log(e);

@@ -3,14 +3,15 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 
 const UserImage = (props) => {
   const styles = styleSheet(props);
+
   return (
     <View style={styles.bg}>
       {props.image ? (
         <Image source={{uri: props.image}} style={styles.image}></Image>
       ) : (
         <Text style={styles.text}>
-          {props.firstName.toUpperCase().charAt(0) +
-            props.lastName.toUpperCase().charAt(0)}
+          {(props.firstName ? props.firstName.toUpperCase().charAt(0) : null) +
+            (props.lastName ? props.lastName.toUpperCase().charAt(0) : null)}
         </Text>
       )}
     </View>
