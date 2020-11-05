@@ -10,6 +10,7 @@ import * as actions from '../../../store/actions';
 
 const {height, width} = Dimensions.get('window');
 const Profile = (props) => {
+  console.log(props.userData);
   return (
     <View style={styles.container}>
       <View style={styles.design}></View>
@@ -21,18 +22,23 @@ const Profile = (props) => {
             <>
               <View style={{alignSelf: 'center'}}>
                 <UserImage
-                  firstName="Prerna"
-                  lastName="Budhraja"
+                  firstName={
+                    props.userData.firstName ? props.userData.firstName : null
+                  }
+                  lastName={
+                    props.userData.lastName ? props.userData.lastName : null
+                  }
                   height={100}
                   width={100}
                   fontSize={30}
                   backgroundColor={colors.primary}></UserImage>
               </View>
               <TextComp type="content" textAlign="center">
-                Prerna_Budh
+                {props.userData.username}
               </TextComp>
               <TextComp type="sub-heading" textAlign="center">
-                Prerna Budhraja
+                {props.userData.firstName ? props.userData.firstName : null}{' '}
+                {props.userData.lastName ? props.userData.lastName : null}
               </TextComp>
             </>
           }></Card>
@@ -41,10 +47,15 @@ const Profile = (props) => {
         <Card
           width={width - 40}
           height={100}
-          center={
+          left={
             <>
-              <TextComp type="content">9113425273</TextComp>
-              <TextComp type="content">prernabudhraja8@gmail.com</TextComp>
+              <TextComp type="content" width="100%">
+                Total Teams:{' '}
+                {props.userData.teams ? props.userData.teams.length : null}
+              </TextComp>
+              <TextComp type="content" width="100%">
+                {props.userData.email}
+              </TextComp>
             </>
           }></Card>
         <Button
@@ -98,4 +109,10 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Profile);
+const mapStateToProps = (state) => {
+  return {
+    userData: state.auth.userData,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
