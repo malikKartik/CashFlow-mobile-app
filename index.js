@@ -11,10 +11,12 @@ import thunk from 'redux-thunk';
 
 // Reducers
 import authReducer from './src/store/reducers/auth';
+import teamReducer from './src/Application/screens/Team/reducer/team';
 
 export const store = createStore(
   combineReducers({
     auth: authReducer,
+    team: teamReducer,
   }),
   applyMiddleware(thunk),
 );

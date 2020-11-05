@@ -70,3 +70,22 @@ export const unsetError = () => {
     type: actionTypes.UNSET_ERROR,
   };
 };
+
+const createTeamHelper = (data) => {
+  return {
+    type: actionTypes.CREATE_TEAM,
+    data,
+  };
+};
+
+export const createTeam = ({name, userId}) => {
+  return (dispatch) => {
+    post({route: '/api/teams/create', body: {name, userId}})
+      .then((data) => {
+        dispatch(createTeamHelper({name, userId, _id: data._id}));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};

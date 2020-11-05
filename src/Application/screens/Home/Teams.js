@@ -1,10 +1,21 @@
 import React, {useState} from 'react';
-import {Image, ScrollView, View} from 'react-native';
+import {Image, ScrollView, View, RefreshControl, Text} from 'react-native';
 import Card from '../../components/Card';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions';
+
 const Teams = (props) => {
   const [search, setSearch] = useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
+  console.log(props.teams);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
   return (
     <>
       <View style={{width: '90%'}}>
@@ -21,24 +32,41 @@ const Teams = (props) => {
           height={40}
           width="90%"></Input>
       </View>
-      <Button onPress={() => props.navigateTo('Team')} title="submit"></Button>
-      <ScrollView style={{width: '90%'}}>
-        <Card height={100} marginVertical={4}></Card>
-        <Card height={100} marginVertical={4}></Card>
-        <Card height={100} marginVertical={4}></Card>
-        <Card height={100} marginVertical={4}></Card>
-        <Card height={100} marginVertical={4}></Card>
-        <Card height={100} marginVertical={4}></Card>
-        <Card height={100} marginVertical={4}></Card>
-        <Card height={100} marginVertical={4}></Card>
-        <Card
-          height={60}
-          marginVertical={4}
-          elevation={0}
-          borderColor="white"></Card>
+
+      <ScrollView
+        style={{width: '90%'}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        {props.teams
+          ? props.teams.map((team) => {
+              return (
+                <Card
+                  height={100}
+                  marginVertical={4}
+                  onPress={() => {
+                    props.onSelectTeam({id: team._id});
+                    props.navigateTo('Team');
+                  }}
+                  center={<Text>{team.teamName}</Text>}></Card>
+              );
+            })
+          : null}
       </ScrollView>
     </>
   );
 };
 
-export default Teams;
+const mapStateToProps = (state) => {
+  return {
+    teams: state.auth.userData.teams,
+  };
+};
+
+const mapDispathToProps = (dispatch) => {
+  return {
+    onSelectTeam: ({id}) => dispatch(actions.setCurrentTeam({id})),
+  };
+};
+
+export default connect(mapStateToProps, mapDispathToProps)(Teams);

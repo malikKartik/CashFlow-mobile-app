@@ -9,7 +9,6 @@ import google from '../../../../asstes/icons/google.png';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions';
-import {post} from '../../requests';
 
 const Login = (props) => {
   const [input, setInput] = useState({

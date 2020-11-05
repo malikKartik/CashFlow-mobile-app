@@ -6,4 +6,7 @@ export {
   unsetError,
   validate,
   logout,
+  createTeam,
 } from './auth';
+
+export {setCurrentTeam} from '../../Application/screens/Team/actions/team';
