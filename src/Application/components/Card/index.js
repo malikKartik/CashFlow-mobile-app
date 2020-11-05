@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
 const Card = (props) => {
   const styles = styleSheet(props);
@@ -7,16 +7,18 @@ const Card = (props) => {
     throw new Error('height and width of card should be a number!');
   }
   return (
-    <View style={styles.innerContainer}>
-      {props.center ? (
-        <View style={styles.center}>{props.center}</View>
-      ) : (
-        <>
-          <View style={styles.left}>{props.left}</View>
-          <View style={styles.right}>{props.right}</View>
-        </>
-      )}
-    </View>
+    <TouchableWithoutFeedback onPress={props.onPress}>
+      <View style={styles.innerContainer}>
+        {props.center ? (
+          <View style={styles.center}>{props.center}</View>
+        ) : (
+          <>
+            <View style={styles.left}>{props.left}</View>
+            <View style={styles.right}>{props.right}</View>
+          </>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
