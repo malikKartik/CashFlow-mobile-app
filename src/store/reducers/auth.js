@@ -53,6 +53,11 @@ const authReducer = (state = INITIAL_STATE, action) => {
       let userData = {...state.userData};
       teams.push(action.data);
       return {...state, userData: {...userData, teams: teams}};
+    case actionTypes.JOIN_TEAM:
+      let teamsNew = [...state.userData.teams];
+      let userDataNew = {...state.userData};
+      teamsNew.push(action.data);
+      return {...state, userData: {...userDataNew, teams: teamsNew}};
     case actionTypes.SET_LOADING:
       return {...state, isLoading: true};
     case actionTypes.STOP_LOADING:

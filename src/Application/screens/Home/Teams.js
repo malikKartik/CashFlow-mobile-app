@@ -48,7 +48,8 @@ const Teams = (props) => {
                     props.onSelectTeam({id: team._id});
                     props.navigateTo('Team');
                   }}
-                  center={<Text>{team.teamName}</Text>}></Card>
+                  center={<Text>{team.teamName}</Text>}
+                  key={team._id}></Card>
               );
             })
           : null}

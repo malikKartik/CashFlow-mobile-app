@@ -7,6 +7,11 @@ export {
   validate,
   logout,
   createTeam,
+  joinTeam,
 } from './auth';
 
-export {setCurrentTeam} from '../../Application/screens/Team/actions/team';
+export {
+  setCurrentTeam,
+  getTeamData,
+  addMember,
+} from '../../Application/screens/Team/actions/team';

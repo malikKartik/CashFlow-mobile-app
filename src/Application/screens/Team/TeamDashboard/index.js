@@ -1,28 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native';
 import TextComp from '../../../components/Text';
 import Button from '../../../components/Button';
 import MemberCard from './MemberCard';
+import {connect} from 'react-redux';
 
-const data = [
-  {
-    firstName: 'Kartik',
-    lastName: 'Malik',
-    id: '1',
-  },
-  {
-    firstName: 'Prerna',
-    lastName: 'Budhraja',
-    debit: 300,
-    id: '2',
-  },
-  {
-    firstName: 'Karan',
-    lastName: 'Kumar',
-    credit: 400,
-    id: '3',
-  },
-];
 const TeamDashboard = (props) => {
   const renderItem = ({item, index}) => {
     return <MemberCard item={item}></MemberCard>;
@@ -31,7 +13,7 @@ const TeamDashboard = (props) => {
     <>
       <View style={styles.container}>
         <TextComp type="heading" marginVertical={1}>
-          Bangalore Trip
+          {props.teamData.teamName}
         </TextComp>
         <TextComp type="sub-heading">Team Dashboard</TextComp>
       </View>
@@ -53,9 +35,9 @@ const TeamDashboard = (props) => {
           <TextComp>Members: </TextComp>
         </View>
         <FlatList
-          data={data}
+          data={props.teamData.users}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           style={{maxHeight: 250}}
           showsVerticalScrollIndicator={false}></FlatList>
         <View style={{marginTop: 20, alignItems: 'center'}}>
@@ -80,4 +62,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TeamDashboard;
+const mapStateToProps = (state) => {
+  return {
+    teamData: state.team.currentTeamData,
+  };
+};
+
+export default connect(mapStateToProps)(TeamDashboard);
