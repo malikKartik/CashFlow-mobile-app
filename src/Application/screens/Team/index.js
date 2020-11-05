@@ -4,6 +4,7 @@ import Tabs from '../../components/Tabs';
 import AddTransaction from './AddTransaction';
 import AllTransactions from './AllTransactions';
 import TeamDashboard from './TeamDashboard';
+import {connect} from 'react-redux';
 
 const Team = (props) => {
   const [activeTab, setActiveTab] = useState('left');
@@ -56,4 +57,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Team;
+const mapStateToProps = (state) => {
+  return {
+    currentTeam: state.team.currentTeam,
+  };
+};
+
+export default connect(mapStateToProps)(Team);
