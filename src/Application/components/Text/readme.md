@@ -6,3 +6,4 @@
 | amountType | No       | still           | String     | credit, debit, still                       |
 | color      | No       | Black           | String     | -                                          |
 | size       | No       | depends on type | Number     | -                                          |
+| textAlign  | No       | left            | string     | -                                          |
