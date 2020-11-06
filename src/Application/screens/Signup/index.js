@@ -16,7 +16,9 @@ const Signup = (props) => {
     firstName: '',
     lastName: '',
     username: '',
+    otp: '',
   });
+  const [verify, setVerify] = useState(false);
   const handleInputChange = (e, type) => {
     setInput({
       ...input,
@@ -31,18 +33,30 @@ const Signup = (props) => {
       },
     })
       .then((data) => {
-        console.log(data);
-        setInput({
-          email: '',
-          password: '',
-          firstName: '',
-          lastName: '',
-          username: '',
-        });
-        props.navigation.navigate('Login');
+        if (data.message == 'User created!') {
+          setInput({
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            username: '',
+            otp: '',
+          });
+          props.navigation.navigate('Login');
+        }
       })
       .catch((e) => {
         console.log(e);
+      });
+  };
+
+  const sendOtp = () => {
+    post({route: '/api/users/sendOtp', body: {email: input.email}})
+      .then((data) => {
+        setVerify(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   return (
@@ -85,8 +99,29 @@ const Signup = (props) => {
           placeholder="Enter Password"
           value={input.password}
           onChangeText={(e) => handleInputChange(e, 'password')}></Input>
+        {verify ? (
+          <>
+            <Input
+              label="OTP"
+              placeholder="Enter OTP"
+              value={input.otp}
+              onChangeText={(e) => handleInputChange(e, 'otp')}></Input>
+            <View
+              style={{width: '100%', alignItems: 'center', marginBottom: 20}}>
+              <Button
+                type="text"
+                textColor={colors.primary}
+                title="Resend OTP"
+                width="100%"
+                onPress={sendOtp}></Button>
+            </View>
+          </>
+        ) : null}
         <View style={styles.button}>
-          <Button title="Signup" type="button" onPress={signup}></Button>
+          <Button
+            title={verify ? 'Register' : 'Send Otp'}
+            type="button"
+            onPress={verify ? signup : sendOtp}></Button>
         </View>
         <View style={{width: '100%', alignItems: 'center', marginBottom: 20}}>
           <Button
