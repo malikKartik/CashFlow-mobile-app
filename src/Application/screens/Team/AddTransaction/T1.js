@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import Text from '../../../components/Text';
 import Input from '../../../components/Input';
@@ -8,6 +8,12 @@ import * as actions from '../../../../store/actions';
 import {addTransactions} from '../../../constants/utilityFunctions';
 const T1 = (props) => {
   const [amount, setAmount] = useState('0');
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    props.setPlaceName({...props.placeName, placeName: ''});
+    setAmount('0');
+  }, [completed]);
 
   const equalSplit = (totalAmount, users) => {
     let allUsers = {};
@@ -36,6 +42,12 @@ const T1 = (props) => {
             {[props.currentUser]: amount},
             equalSplit(amount, props.team.currentTeamData.users),
             props.team.currentTeamData.users,
+            {
+              teamId: props.team.currentTeam,
+              bill: 'None',
+              placeName: props.placeName,
+            },
+            setCompleted,
           )
         }></Button>
     </View>
@@ -50,16 +62,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(T1);
-
-// {userId:500,userId:500,userId:500} --> paid
-// {userId:500,userId:500,userId:500} --> split
-// [users]
-
-// 50,50,500 --> 0,0,300
-// 200,200,200 --> 150,150,0
-
-// 0,0,150
-// 0,150,0
-
-// 0,50,50,500
-// 0,200,200,200

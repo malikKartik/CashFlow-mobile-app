@@ -1,3 +1,5 @@
+import {post} from '../requests';
+
 export const inputChangeHandler = (input, e, type) => {
   let updatedInput = {...input};
   let updatedElement = {...updatedInput[type]};
@@ -37,7 +39,9 @@ const checkValidation = (value, rules) => {
 
 // paid is an object {userId:paid amount}
 // paid is an object {userId:split amount}
-export const addTransactions = (paid, split, allUsers) => {
+export const addTransactions = (paid, split, allUsers, specs, setCompleted) => {
+  console.log(paid);
+  console.log(split);
   let transactions = [];
 
   const compareOnBalance = (a, b) => {
@@ -49,8 +53,8 @@ export const addTransactions = (paid, split, allUsers) => {
   allUsers.forEach((user) => {
     let temp = {
       _id: user._id,
-      balance: paid[user._id] ? parseInt(paid[user._id]) : 0,
-      split: split[user._id] ? parseInt(split[user._id]) : 0,
+      balance: paid[user._id] ? parseFloat(paid[user._id]) : 0,
+      split: split[user._id] ? parseFloat(split[user._id]) : 0,
     };
     if (temp.balance > temp.split) {
       temp.balance = temp.balance - temp.split;
@@ -94,6 +98,20 @@ export const addTransactions = (paid, split, allUsers) => {
       end--;
     }
   }
-  console.log(JSON.stringify(transactions, null, 4));
-  console.log(JSON.stringify(users, null, 4));
+
+  const finalData = {
+    teamId: specs.teamId,
+    placeName: specs.placeName,
+    bill: specs.bill,
+    transactions: transactions,
+  };
+  post({route: '/api/transactions/addTransactions', body: finalData})
+    .then((data) => {
+      console.log(data);
+      setCompleted(true);
+    })
+    .catch((e) => {
+      console.log(e);
+      setCompleted(false);
+    });
 };
