@@ -5,47 +5,54 @@ const Input = (props) => {
   const styles = styleSheet(props);
   return (
     <View style={styles.inputContainer}>
-      {props.label ? <Text style={styles.label}>{props.label}</Text> : null}
-      {props.isAmount ? (
-        <>
-          <View style={styles.amountInput}>
+      <>
+        {props.label ? <Text style={styles.label}>{props.label}</Text> : null}
+        {props.isAmount ? (
+          <>
+            <View style={styles.amountInput}>
+              <TextInput
+                style={styles.amountInputField}
+                placeholder={props.placeholder}
+                onChangeText={(e) => props.onChangeText(e, props.id)}
+                value={props.value}
+                textContentType={
+                  props.contentType ? props.contentType : 'none'
+                }></TextInput>
+              <View style={styles.currency}>
+                <TextCurrency marginVertical={0} size={18} color="white">
+                  {props.currency ? props.currency : 'INR'}
+                </TextCurrency>
+              </View>
+            </View>
+          </>
+        ) : props.icon ? (
+          <View style={styles.iconInput}>
+            <View style={styles.iconStyle}>{props.icon}</View>
             <TextInput
-              style={styles.amountInputField}
+              style={styles.iconInputField}
               placeholder={props.placeholder}
-              onChangeText={(e) => props.onChangeText(e, props.id)}
+              onChangeText={(e) => props.onChangeText(e)}
               value={props.value}
               textContentType={
                 props.contentType ? props.contentType : 'none'
               }></TextInput>
-            <View style={styles.currency}>
-              <TextCurrency marginVertical={0} size={18} color="white">
-                {props.currency ? props.currency : 'INR'}
-              </TextCurrency>
-            </View>
           </View>
-        </>
-      ) : props.icon ? (
-        <View style={styles.iconInput}>
-          <View style={styles.iconStyle}>{props.icon}</View>
+        ) : (
           <TextInput
-            style={styles.iconInputField}
             placeholder={props.placeholder}
+            style={styles.inputComp}
             onChangeText={(e) => props.onChangeText(e)}
             value={props.value}
             textContentType={
               props.contentType ? props.contentType : 'none'
             }></TextInput>
-        </View>
-      ) : (
-        <TextInput
-          placeholder={props.placeholder}
-          style={styles.inputComp}
-          onChangeText={(e) => props.onChangeText(e)}
-          value={props.value}
-          textContentType={
-            props.contentType ? props.contentType : 'none'
-          }></TextInput>
-      )}
+        )}
+        {props.error ? (
+          <View>
+            <Text style={styles.error}>{props.errorMessage}</Text>
+          </View>
+        ) : null}
+      </>
     </View>
   );
 };
@@ -127,6 +134,10 @@ const styleSheet = (props) => {
         : '#9392ff',
       borderTopRightRadius: props.borderRadius ? props.borderRadius : 7,
       borderBottomRightRadius: props.borderRadius ? props.borderRadius : 7,
+    },
+    error: {
+      color: 'red',
+      fontSize: 10,
     },
   });
 };
