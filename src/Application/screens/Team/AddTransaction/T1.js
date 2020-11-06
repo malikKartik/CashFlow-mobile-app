@@ -5,7 +5,7 @@ import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../../../store/actions';
-import {addTransactions} from './addTransactionsFunc';
+import {addTransactions} from '../../../constants/utilityFunctions';
 const T1 = (props) => {
   const [amount, setAmount] = useState('0');
 
