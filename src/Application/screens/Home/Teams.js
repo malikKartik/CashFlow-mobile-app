@@ -70,7 +70,8 @@ const Teams = (props) => {
                   friction={1.5}
                   renderRightActions={(progress, dragX) =>
                     swipeLeft(progress, dragX, '12345')
-                  }>
+                  }
+                  key={team._id}>
                   <Card
                     key={team._id}
                     height={100}

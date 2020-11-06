@@ -8,40 +8,84 @@ import Button from '../../components/Button';
 import google from '../../../../asstes/icons/google.png';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {post} from '../../requests';
+import {inputChangeHandler} from '../../constants/utilityFunctions';
 
 const Signup = (props) => {
+  //TODO- Outsource as model
   const [input, setInput] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    username: '',
-    otp: '',
+    email: {
+      value: '',
+      validation: {
+        required: true,
+        regex: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required, should be a valid email',
+    },
+    password: {
+      value: '',
+      validation: {
+        required: true,
+        minLength: 8,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required, minimum 8 characters',
+    },
+    firstName: {
+      value: '',
+      validation: {
+        required: true,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required',
+    },
+    lastName: {
+      value: '',
+      validation: {
+        required: true,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required',
+    },
+    username: {
+      value: '',
+      validation: {
+        required: true,
+        minLength: 5,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required, minimum 5 characters',
+    },
   });
+  const [valid, setValid] = useState(false);
   const [verify, setVerify] = useState(false);
+  const [otp, setOtp] = useState('');
+
   const handleInputChange = (e, type) => {
-    setInput({
-      ...input,
-      [type]: e,
-    });
+    const [validity, updatedInput] = inputChangeHandler(input, e, type);
+    setValid(validity);
+    setInput(updatedInput);
   };
+
   const signup = () => {
     post({
       route: '/api/users/signup',
       body: {
-        ...input,
+        email: input.email.value,
+        password: input.password.value,
+        firstName: input.firstName.value,
+        lastName: input.lastName.value,
+        username: input.username.value,
+        otp: otp,
       },
     })
       .then((data) => {
         if (data.message == 'User created!') {
-          setInput({
-            email: '',
-            password: '',
-            firstName: '',
-            lastName: '',
-            username: '',
-            otp: '',
-          });
           props.navigation.navigate('Login');
         }
       })
@@ -51,7 +95,7 @@ const Signup = (props) => {
   };
 
   const sendOtp = () => {
-    post({route: '/api/users/sendOtp', body: {email: input.email}})
+    post({route: '/api/users/sendOtp', body: {email: input.email.value}})
       .then((data) => {
         setVerify(true);
       })
@@ -71,41 +115,51 @@ const Signup = (props) => {
         <Input
           label="Email Id"
           placeholder="Enter Email Address"
-          value={input.email}
+          value={input.email.value}
+          error={input.email.touched && !input.email.valid}
+          errorMessage={input.email.errorMessage}
           onChangeText={(e) => handleInputChange(e, 'email')}></Input>
         <View style={styles.name}>
           <View style={{width: '47%'}}>
             <Input
               label="First Name"
               placeholder="First Name"
-              value={input.firstName}
+              value={input.firstName.value}
+              error={input.firstName.touched && !input.firstName.valid}
+              errorMessage={input.firstName.errorMessage}
               onChangeText={(e) => handleInputChange(e, 'firstName')}></Input>
           </View>
           <View style={{width: '47%'}}>
             <Input
               label="Last Name"
               placeholder="Last Name"
-              value={input.lastName}
+              value={input.lastName.value}
+              error={input.lastName.touched && !input.lastName.valid}
+              errorMessage={input.lastName.errorMessage}
               onChangeText={(e) => handleInputChange(e, 'lastName')}></Input>
           </View>
         </View>
         <Input
           label="Username"
           placeholder="Enter Username"
-          value={input.username}
+          value={input.username.value}
+          error={input.username.touched && !input.username.valid}
+          errorMessage={input.username.errorMessage}
           onChangeText={(e) => handleInputChange(e, 'username')}></Input>
         <Input
           label="Password"
           placeholder="Enter Password"
-          value={input.password}
+          value={input.password.value}
+          error={input.password.touched && !input.password.valid}
+          errorMessage={input.password.errorMessage}
           onChangeText={(e) => handleInputChange(e, 'password')}></Input>
         {verify ? (
           <>
             <Input
               label="OTP"
               placeholder="Enter OTP"
-              value={input.otp}
-              onChangeText={(e) => handleInputChange(e, 'otp')}></Input>
+              value={otp}
+              onChangeText={(e) => setOtp(e)}></Input>
             <View
               style={{width: '100%', alignItems: 'center', marginBottom: 20}}>
               <Button
@@ -121,7 +175,8 @@ const Signup = (props) => {
           <Button
             title={verify ? 'Register' : 'Send Otp'}
             type="button"
-            onPress={verify ? signup : sendOtp}></Button>
+            onPress={verify ? signup : sendOtp}
+            disabled={verify ? (otp ? false : true) : !valid}></Button>
         </View>
         <View style={{width: '100%', alignItems: 'center', marginBottom: 20}}>
           <Button
@@ -134,7 +189,8 @@ const Signup = (props) => {
         <TextComp type="sub-content" textAlign="center">
           Signup using:
         </TextComp>
-        <TouchableWithoutFeedback style={{alignSelf: 'center', marginTop: 16}}>
+        <TouchableWithoutFeedback
+          style={{alignSelf: 'center', marginVertical: 16}}>
           <Image source={google}></Image>
         </TouchableWithoutFeedback>
       </View>
@@ -158,7 +214,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    marginTop: 28,
+    marginTop: 10,
     width: '100%',
     alignItems: 'center',
   },
