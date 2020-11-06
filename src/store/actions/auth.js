@@ -82,7 +82,25 @@ export const createTeam = ({name, userId}) => {
   return (dispatch) => {
     post({route: '/api/teams/create', body: {name, userId}})
       .then((data) => {
-        dispatch(createTeamHelper({name, userId, _id: data._id}));
+        dispatch(createTeamHelper({teamName: name, userId, _id: data._id}));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};
+
+export const joinTeamHelper = (data) => {
+  return {
+    type: actionTypes.JOIN_TEAM,
+    data,
+  };
+};
+export const joinTeam = ({teamid, secret, userid}) => {
+  return (dispatch) => {
+    post({route: '/api/teams/joinTeam', body: {teamid, secret, userid}})
+      .then((data) => {
+        dispatch(joinTeamHelper({_id: data._id, teamName: data.teamName}));
       })
       .catch((e) => {
         console.log(e);
