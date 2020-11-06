@@ -8,7 +8,7 @@ import T2 from './T2';
 import T3 from './T3';
 const AddTransaction = () => {
   const [formData, setFormData] = useState({
-    transactionName: '',
+    placeName: '',
     type: {label: 'Paid by you split equally', id: 'T1'},
   });
 
@@ -16,8 +16,8 @@ const AddTransaction = () => {
     <View style={styles.container}>
       <Input
         label="Transaction Name"
-        onChangeText={(val) => setFormData({...formData, transactionName: val})}
-        value={formData.transactionName}
+        onChangeText={(val) => setFormData({...formData, placeName: val})}
+        value={formData.placeName}
         placeholder="Enter Transaction Name"></Input>
       <Dropdown
         selectedValue={formData.type}
@@ -33,9 +33,24 @@ const AddTransaction = () => {
           {label: 'Paid by multiple split unequally', id: 'T4'},
         ]}></Dropdown>
 
-      {formData.type.id === 'T1' ? <T1></T1> : null}
-      {formData.type.id === 'T2' ? <T2></T2> : null}
-      {formData.type.id === 'T3' ? <T3></T3> : null}
+      {formData.type.id === 'T1' ? (
+        <T1
+          placeName={formData.placeName}
+          setPlaceName={setFormData}
+          placeName={formData}></T1>
+      ) : null}
+      {formData.type.id === 'T2' ? (
+        <T2
+          placeName={formData.placeName}
+          setPlaceName={setFormData}
+          placeName={formData}></T2>
+      ) : null}
+      {formData.type.id === 'T3' ? (
+        <T3
+          placeName={formData.placeName}
+          setPlaceName={setFormData}
+          placeName={formData}></T3>
+      ) : null}
       {formData.type.id === 'T4' ? <Text>T4</Text> : null}
     </View>
   );
