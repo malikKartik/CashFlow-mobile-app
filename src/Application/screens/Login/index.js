@@ -9,20 +9,42 @@ import google from '../../../../asstes/icons/google.png';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions';
+import {inputChangeHandler} from '../../constants/utilityFunctions';
 
 const Login = (props) => {
   const [input, setInput] = useState({
-    email: '',
-    password: '',
+    email: {
+      value: '',
+      validation: {
+        required: true,
+        regex: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required, should be a valid email',
+    },
+    password: {
+      value: '',
+      validation: {
+        required: true,
+        minLength: 8,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required, minimum 8 characters',
+    },
   });
+  const [valid, setValid] = useState(false);
   const handleInputChange = (e, type) => {
-    setInput({
-      ...input,
-      [type]: e,
-    });
+    const [validity, updatedInput] = inputChangeHandler(input, e, type);
+    setValid(validity);
+    setInput(updatedInput);
   };
   const login = async () => {
-    props.onLogin({username: input.email, password: input.password});
+    props.onLogin({
+      username: input.email.value,
+      password: input.password.value,
+    });
   };
 
   return (
@@ -37,15 +59,23 @@ const Login = (props) => {
         <Input
           label="Email Id"
           placeholder="Enter Email Address"
-          value={input.email}
+          value={input.email.value}
+          error={input.email.touched && !input.email.valid}
+          errorMessage={input.email.errorMessage}
           onChangeText={(val) => handleInputChange(val, 'email')}></Input>
         <Input
           label="Password"
           placeholder="Enter Password"
-          value={input.password}
+          value={input.password.value}
+          error={input.password.touched && !input.password.valid}
+          errorMessage={input.password.errorMessage}
           onChangeText={(val) => handleInputChange(val, 'password')}></Input>
         <View style={styles.button}>
-          <Button title="Login" type="button" onPress={login}></Button>
+          <Button
+            title="Login"
+            type="button"
+            onPress={login}
+            disabled={!valid}></Button>
         </View>
         <View style={{width: '100%', alignItems: 'center', marginBottom: 20}}>
           <Button
