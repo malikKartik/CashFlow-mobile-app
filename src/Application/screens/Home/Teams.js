@@ -71,7 +71,8 @@ const Teams = (props) => {
                   key={team._id}
                   renderRightActions={(progress, dragX) =>
                     swipeLeft(progress, dragX, '12345')
-                  }>
+                  }
+                  key={team._id}>
                   <Card
                     height={100}
                     marginVertical={4}

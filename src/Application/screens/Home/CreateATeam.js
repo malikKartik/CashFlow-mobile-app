@@ -6,34 +6,51 @@ import Dropdown from '../../components/Dropdown';
 import Button from '../../components/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
+import {inputChangeHandler} from '../../constants/utilityFunctions';
 
 const CreateATeam = (props) => {
-  const [formData, setFormData] = useState({teamName: '', teamType: ''});
-
+  const [input, setInput] = useState({
+    teamName: {
+      value: '',
+      validation: {
+        required: true,
+      },
+      valid: false,
+      touched: false,
+      errorMessage: '* required',
+    },
+  });
+  const [valid, setValid] = useState(false);
+  const handleInputChange = (e, type) => {
+    const [validity, updatedInput] = inputChangeHandler(input, e, type);
+    setValid(validity);
+    setInput(updatedInput);
+  };
   return (
     <>
       <View style={styles.container}>
         <Input
           label="Team Name"
-          onChangeText={(val) => setFormData({...formData, teamName: val})}
-          value={formData.teamName}
+          onChangeText={(val) => handleInputChange(val, 'teamName')}
+          value={input.teamName.value}
           placeholder="Enter Team Name"
           width="90%"></Input>
 
-        <Dropdown
+        {/* <Dropdown
           selectedValue={{label: 'General', id: 'general'}}
           width="100%"
-          options={[{label: 'General', id: 'general'}]}></Dropdown>
+          options={[{label: 'General', id: 'general'}]}></Dropdown> */}
 
         <Button
           title="Create"
           marginVertical={10}
           onPress={() =>
             props.onCreateTeam({
-              name: formData.teamName,
+              name: input.teamName.value,
               userId: props.auth.userData.userId,
             })
-          }></Button>
+          }
+          disabled={!valid}></Button>
       </View>
     </>
   );

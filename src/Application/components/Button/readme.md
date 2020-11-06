@@ -10,3 +10,4 @@
 | buttonColor  | No       | '#9392ff' | String      | -           |
 | borderRadius | No       | 5         | Number      | -           |
 | textColor    | No       | white     | String      | -           |
+| disabled     | No       | false     | Boolean     | -           |
