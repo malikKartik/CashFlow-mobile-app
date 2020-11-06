@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
-import {Image, ScrollView, View, RefreshControl, Text} from 'react-native';
+import {Animated, Image, ScrollView, View, RefreshControl} from 'react-native';
+import Text from '../../components/Text';
 import Card from '../../components/Card';
 import Input from '../../components/Input';
-import Button from '../../components/Button';
+import {primary} from '../../constants/ColorConstants';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {RectButton} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions';
 
@@ -16,6 +19,25 @@ const Teams = (props) => {
       setRefreshing(false);
     }, 2000);
   };
+
+  const swipeLeft = (progress, dragX, secret) => {
+    return (
+      <RectButton style={{display: 'flex', justifyContent: 'center'}}>
+        <Card
+          height={94}
+          width={200}
+          marginVertical={4}
+          elevation={0}
+          backgroundColor={primary}
+          center={
+            <Text style={{color: 'white'}} type={'sub-content'}>
+              Secret:{secret}
+            </Text>
+          }></Card>
+      </RectButton>
+    );
+  };
+
   return (
     <>
       <View style={{width: '90%'}}>
@@ -38,19 +60,27 @@ const Teams = (props) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
+        <Text type="sub-content" textAlign="center" size={12} color="#aaa">
+          Swipe the card left to see the team password
+        </Text>
         {props.teams
           ? props.teams.map((team) => {
               return (
-                <Card
-                  key={team._id}
-                  height={100}
-                  marginVertical={4}
-                  onPress={() => {
-                    props.onSelectTeam({id: team._id});
-                    props.navigateTo('Team');
-                  }}
-                  center={<Text>{team.teamName}</Text>}
-                  key={team._id}></Card>
+                <Swipeable
+                  friction={1.5}
+                  renderRightActions={(progress, dragX) =>
+                    swipeLeft(progress, dragX, '12345')
+                  }>
+                  <Card
+                    key={team._id}
+                    height={100}
+                    marginVertical={4}
+                    onPress={() => {
+                      props.onSelectTeam({id: team._id});
+                      props.navigateTo('Team');
+                    }}
+                    center={<Text size={16}>{team.teamName}</Text>}></Card>
+                </Swipeable>
               );
             })
           : null}
