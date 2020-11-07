@@ -7,12 +7,12 @@ import {connect} from 'react-redux';
 import * as actions from '../../../../store/actions';
 import {addTransactions} from '../../../constants/utilityFunctions';
 const T1 = (props) => {
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState('');
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     props.setPlaceName({...props.placeName, placeName: ''});
-    setAmount('0');
+    setAmount('');
   }, [completed]);
 
   const equalSplit = (totalAmount, users) => {
@@ -31,12 +31,19 @@ const T1 = (props) => {
         isAmount={true}
         onChangeText={(val) => setAmount(val)}
         value={amount}
-        label="Enter Amount"></Input>
+        label="Enter Amount"
+        error={amount.trim() === '' || amount === '0'}
+        errorMessage="* required and non-zero"></Input>
       <Text type="sub-content" color="red">
         {isNaN(amount) ? 'Amount should be a number' : null}
       </Text>
       <Button
         title="Add"
+        disabled={
+          amount.trim() === '' ||
+          amount === '0' ||
+          props.placeName.placeName.trim() === ''
+        }
         onPress={() =>
           addTransactions(
             {[props.currentUser]: amount},
