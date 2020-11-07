@@ -14,4 +14,5 @@ export {
   setCurrentTeam,
   getTeamData,
   addMember,
+  addPlace,
 } from '../../Application/screens/Team/actions/team';

@@ -1,4 +1,6 @@
 import {post} from '../requests';
+import {store} from '../../../index';
+import * as actions from '../../store/actions';
 
 export const inputChangeHandler = (input, e, type) => {
   let updatedInput = {...input};
@@ -107,7 +109,7 @@ export const addTransactions = (paid, split, allUsers, specs, setCompleted) => {
   };
   post({route: '/api/transactions/addTransactions', body: finalData})
     .then((data) => {
-      console.log(data);
+      store.dispatch(actions.addPlace(data));
       setCompleted(true);
     })
     .catch((e) => {
