@@ -45,7 +45,7 @@ const T1 = (props) => {
             {
               teamId: props.team.currentTeam,
               bill: 'None',
-              placeName: props.placeName,
+              placeName: props.placeName.placeName,
             },
             setCompleted,
           )
