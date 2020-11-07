@@ -56,3 +56,11 @@ export const addMember = ({teamid, username}) => {
       });
   };
 };
+
+export const addPlace = (data) => {
+  console.log(data);
+  return {
+    type: actionTypes.ADD_PLACE,
+    data,
+  };
+};

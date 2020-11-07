@@ -1,17 +1,53 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, ScrollView} from 'react-native';
 import Text from '../../../components/Text';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import Checkbox from '../../../components/Checkbox';
-import {call} from 'react-native-reanimated';
+import {connect} from 'react-redux';
+import {addTransactions} from '../../../constants/utilityFunctions';
 
-const T2 = () => {
-  const [amount, setAmount] = useState([
-    {person: 'Kartik', paid: false, amount: '0', id: '1'},
-    {person: 'Prerna', paid: false, amount: '0', id: '2'},
-    {person: 'Mike', paid: false, amount: '0', id: '3'},
-  ]);
+const T2 = (props) => {
+  const users = [];
+  props.team.currentTeamData.users.forEach((user) => {
+    users.push({
+      person: user.firstName,
+      paid: false,
+      amount: '0',
+      id: user._id,
+    });
+  });
+  const [amount, setAmount] = useState([...users]);
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    props.setPlaceName({...props.placeName, placeName: ''});
+    setAmount(users);
+  }, [completed]);
+
+  const paidBy = () => {
+    let tempPaid = {};
+    amount.forEach((user) => {
+      if (user.paid) {
+        tempPaid[user.id] = user.amount;
+      }
+    });
+    return tempPaid;
+  };
+
+  const equalSplit = () => {
+    let allUsers = {};
+    let totalAmount = 0;
+    amount.forEach((user) => {
+      if (user.paid) totalAmount = totalAmount + parseFloat(user.amount);
+    });
+    amount.forEach((user) => {
+      allUsers[user.id] = totalAmount / amount.length;
+    });
+
+    return allUsers;
+  };
+
   return (
     <View style={{alignItems: 'center'}}>
       <Text type="sub-heading" style={{alignSelf: 'flex-start'}}>
@@ -68,11 +104,31 @@ const T2 = () => {
           );
         })}
         <View style={{width: '100%', alignItems: 'center'}}>
-          <Button title="Add"></Button>
+          <Button
+            title="Add"
+            onPress={() => {
+              addTransactions(
+                paidBy(),
+                equalSplit(),
+                props.team.currentTeamData.users,
+                {
+                  teamId: props.team.currentTeam,
+                  bill: 'None',
+                  placeName: props.placeName,
+                },
+                setCompleted,
+              );
+            }}></Button>
         </View>
       </ScrollView>
     </View>
   );
 };
 
-export default T2;
+const mapDispatchToProps = (state) => {
+  return {
+    team: state.team,
+  };
+};
+
+export default connect(mapDispatchToProps)(T2);

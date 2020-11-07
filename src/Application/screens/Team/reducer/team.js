@@ -19,6 +19,10 @@ const teamReducer = (state = INITIAL_STATE, action) => {
       let currentTeam = {...state.currentTeamData};
       users.push(action.data);
       return {...state, currentTeamData: {...currentTeam, users: users}};
+    case actionTypes.ADD_PLACE:
+      let teamData = {...state.currentTeamData};
+      teamData.places.push(action.data);
+      return {...state, currentTeamData: teamData};
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import BottomNav from './screens/BottomNav';
 import Team from './screens/Team';
 import AddMember from './screens/Team/AddMember';
 import RoomTransactions from './screens/Team/RoomTransactions';
+import Toast from './hoc/Toast';
 import {connect} from 'react-redux';
 const navigatorTheme = {
   ...DefaultTheme,
@@ -33,7 +34,13 @@ const Application = (props) => {
         ) : (
           <>
             <Stack.Screen name="Main Tab" component={BottomNav}></Stack.Screen>
-            <Stack.Screen name="Team" component={Team}></Stack.Screen>
+            <Stack.Screen
+              name="Team"
+              component={(props) => (
+                <Toast>
+                  <Team navigation={props.navigation}></Team>
+                </Toast>
+              )}></Stack.Screen>
             <Stack.Screen
               name="Add Member"
               component={AddMember}></Stack.Screen>
