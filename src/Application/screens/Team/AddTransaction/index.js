@@ -6,6 +6,7 @@ import {View, StyleSheet} from 'react-native';
 import T1 from './T1';
 import T2 from './T2';
 import T3 from './T3';
+import T4 from './T4';
 const AddTransaction = () => {
   const [formData, setFormData] = useState({
     placeName: '',
@@ -34,24 +35,17 @@ const AddTransaction = () => {
         ]}></Dropdown>
 
       {formData.type.id === 'T1' ? (
-        <T1
-          placeName={formData.placeName}
-          setPlaceName={setFormData}
-          placeName={formData}></T1>
+        <T1 setPlaceName={setFormData} placeName={formData}></T1>
       ) : null}
       {formData.type.id === 'T2' ? (
-        <T2
-          placeName={formData.placeName}
-          setPlaceName={setFormData}
-          placeName={formData}></T2>
+        <T2 setPlaceName={setFormData} placeName={formData}></T2>
       ) : null}
       {formData.type.id === 'T3' ? (
-        <T3
-          placeName={formData.placeName}
-          setPlaceName={setFormData}
-          placeName={formData}></T3>
+        <T3 setPlaceName={setFormData} placeName={formData}></T3>
       ) : null}
-      {formData.type.id === 'T4' ? <Text>T4</Text> : null}
+      {formData.type.id === 'T4' ? (
+        <T4 setPlaceName={setFormData} placeName={formData}></T4>
+      ) : null}
     </View>
   );
 };

@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 const T2 = (props) => {
   const [amount, setAmount] = useState([]);
   const [completed, setCompleted] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     props.setPlaceName({...props.placeName, placeName: ''});
@@ -24,20 +25,34 @@ const T2 = (props) => {
       tempObj['person'] = user.username;
       tempObj['paid'] = false;
       tempObj['amount'] = '0';
+      tempObj['shared'] = false;
+      tempObj['share'] = '0';
       tempObj['id'] = user._id;
       tempAmount = [...tempAmount, tempObj];
     });
     setAmount(tempAmount);
   }, []);
-  const [totalAmount, setTotalAmount] = useState('0');
+
+  useEffect(() => {
+    let tempAmt = 0;
+    amount.forEach((person) => {
+      tempAmt = tempAmt + parseInt(person.amount);
+    });
+    setTotalAmount(tempAmt);
+  }, [amount]);
   const [paidEqually, setPaidEqually] = useState(false);
+
   const transactionHandler = () => {
     let split = {};
     amount.forEach((person) => {
-      if (person.paid) split[person.id] = person.amount;
+      if (person.shared) split[person.id] = person.share;
+    });
+    let paid = {};
+    amount.forEach((person) => {
+      if (person.paid) paid[person.id] = person.amount;
     });
     addTransactions(
-      {[props.currentUser]: totalAmount},
+      paid,
       split,
       props.team.currentTeamData.users,
       {
@@ -50,42 +65,11 @@ const T2 = (props) => {
   };
   return (
     <>
-      <Input
-        isAmount={true}
-        onChangeText={(val) => setTotalAmount(val)}
-        value={totalAmount}
-        label="Enter Amount"></Input>
-      <Text type="sub-content" color="red">
-        {isNaN(totalAmount) ? 'Amount should be a number' : null}
-      </Text>
       <View style={{alignItems: 'center'}}>
-        <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
-          Paid To
-        </Text>
-        <Text type="sub-heading" style={{alignSelf: 'flex-start'}}>
-          Split equally:{' '}
-          <Switch
-            inactiveBackgroundColor="#c1c1c1"
-            onPress={() => {
-              if (!paidEqually) {
-                const temp = [...amount];
-                temp.map((each) => {
-                  each.paid = true;
-                  each.amount = (totalAmount / temp.length).toString();
-                });
-                setAmount(temp);
-              } else {
-                const temp = [...amount];
-                temp.map((each) => {
-                  each.paid = false;
-                });
-                setAmount(temp);
-              }
-              setPaidEqually(!paidEqually);
-            }}
-            active={paidEqually}></Switch>
-        </Text>
         <ScrollView style={{width: '100%', display: 'flex'}}>
+          <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
+            Select who paid
+          </Text>
           {amount.map((item) => {
             return (
               <View
@@ -130,6 +114,83 @@ const T2 = (props) => {
                         setAmount(temp);
                       }}
                       value={item.amount}></Input>
+                  ) : null}
+                </View>
+              </View>
+            );
+          })}
+          <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
+            Paid To
+          </Text>
+          {totalAmount !== 0 ? (
+            <Text type="sub-heading" style={{alignSelf: 'flex-start'}}>
+              Split equally:{' '}
+              <Switch
+                inactiveBackgroundColor="#c1c1c1"
+                onPress={() => {
+                  if (!paidEqually) {
+                    const temp = [...amount];
+                    temp.map((each) => {
+                      each.shared = true;
+                      each.share = (totalAmount / temp.length).toString();
+                    });
+                    setAmount(temp);
+                  } else {
+                    const temp = [...amount];
+                    temp.map((each) => {
+                      each.shared = false;
+                    });
+                    setAmount(temp);
+                  }
+                  setPaidEqually(!paidEqually);
+                }}
+                active={paidEqually}></Switch>
+            </Text>
+          ) : null}
+          {amount.map((item) => {
+            return (
+              <View
+                key={item.id}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  height: 60,
+                }}>
+                <Checkbox
+                  height={20}
+                  width={20}
+                  id={item.id}
+                  label={item.person}
+                  labelStyle={{fontSize: 20}}
+                  checked={item.shared}
+                  onChange={(val) => {
+                    let temp = [...amount];
+                    temp.map((each) => {
+                      if (each.id === val.id) {
+                        each.shared = val.checked;
+                      }
+                    });
+                    setAmount(temp);
+                  }}
+                  checkedColor="#9392ff"></Checkbox>
+
+                <View style={{width: '40%', position: 'relative', top: 10}}>
+                  {item.shared ? (
+                    <Input
+                      isAmount={true}
+                      sizeMini={true}
+                      id={item.id}
+                      onChangeText={(val, id) => {
+                        let temp = [...amount];
+                        temp.map((each) => {
+                          if (each.id === id) {
+                            each.share = val;
+                          }
+                        });
+                        setAmount(temp);
+                      }}
+                      value={item.share}></Input>
                   ) : null}
                 </View>
               </View>
