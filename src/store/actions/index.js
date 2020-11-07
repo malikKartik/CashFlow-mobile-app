@@ -15,4 +15,5 @@ export {
   getTeamData,
   addMember,
   addPlace,
+  setCurrentRoom,
 } from '../../Application/screens/Team/actions/team';

@@ -12,10 +12,15 @@ const T2 = (props) => {
   const [amount, setAmount] = useState([]);
   const [completed, setCompleted] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [remaining, setRemaining] = useState(0);
 
   useEffect(() => {
     props.setPlaceName({...props.placeName, placeName: ''});
     setTotalAmount('0');
+    amount.forEach((person) => {
+      person.paid = false;
+      person.shared = false;
+    });
   }, [completed]);
 
   useEffect(() => {
@@ -36,10 +41,18 @@ const T2 = (props) => {
   useEffect(() => {
     let tempAmt = 0;
     amount.forEach((person) => {
-      tempAmt = tempAmt + parseInt(person.amount);
+      if (person.paid && person.amount !== '')
+        tempAmt = tempAmt + parseInt(person.amount);
+    });
+    let splitAmt = 0;
+    amount.forEach((person) => {
+      if (person.shared && person.share !== '')
+        splitAmt = splitAmt + parseInt(person.share);
     });
     setTotalAmount(tempAmt);
+    setRemaining(parseFloat(tempAmt) - parseFloat(splitAmt));
   }, [amount]);
+
   const [paidEqually, setPaidEqually] = useState(false);
 
   const transactionHandler = () => {
@@ -61,147 +74,153 @@ const T2 = (props) => {
         placeName: props.placeName.placeName,
       },
       setCompleted,
+      completed,
     );
   };
   return (
-    <>
-      <View style={{alignItems: 'center'}}>
-        <ScrollView style={{width: '100%', display: 'flex'}}>
-          <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
-            Select who paid
-          </Text>
-          {amount.map((item) => {
-            return (
-              <View
-                key={item.id}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  height: 60,
-                }}>
-                <Checkbox
-                  height={20}
-                  width={20}
-                  id={item.id}
-                  label={item.person}
-                  labelStyle={{fontSize: 20}}
-                  checked={item.paid}
-                  onChange={(val) => {
-                    let temp = [...amount];
-                    temp.map((each) => {
-                      if (each.id === val.id) {
-                        each.paid = val.checked;
-                      }
-                    });
-                    setAmount(temp);
-                  }}
-                  checkedColor="#9392ff"></Checkbox>
-
-                <View style={{width: '40%', position: 'relative', top: 10}}>
-                  {item.paid ? (
-                    <Input
-                      isAmount={true}
-                      sizeMini={true}
-                      id={item.id}
-                      onChangeText={(val, id) => {
-                        let temp = [...amount];
-                        temp.map((each) => {
-                          if (each.id === id) {
-                            each.amount = val;
-                          }
-                        });
-                        setAmount(temp);
-                      }}
-                      value={item.amount}></Input>
-                  ) : null}
-                </View>
-              </View>
-            );
-          })}
-          <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
-            Paid To
-          </Text>
-          {totalAmount !== 0 ? (
-            <Text type="sub-heading" style={{alignSelf: 'flex-start'}}>
-              Split equally:{' '}
-              <Switch
-                inactiveBackgroundColor="#c1c1c1"
-                onPress={() => {
-                  if (!paidEqually) {
-                    const temp = [...amount];
-                    temp.map((each) => {
-                      each.shared = true;
-                      each.share = (totalAmount / temp.length).toString();
-                    });
-                    setAmount(temp);
-                  } else {
-                    const temp = [...amount];
-                    temp.map((each) => {
-                      each.shared = false;
-                    });
-                    setAmount(temp);
+    <ScrollView style={{width: '100%', display: 'flex'}}>
+      <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
+        Select who paid
+      </Text>
+      {amount.map((item) => {
+        return (
+          <View
+            key={item.id}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              height: 60,
+            }}>
+            <Checkbox
+              height={20}
+              width={20}
+              id={item.id}
+              label={item.person}
+              labelStyle={{fontSize: 20}}
+              checked={item.paid}
+              onChange={(val) => {
+                let temp = [...amount];
+                temp.map((each) => {
+                  if (each.id === val.id) {
+                    each.paid = val.checked;
                   }
-                  setPaidEqually(!paidEqually);
-                }}
-                active={paidEqually}></Switch>
-            </Text>
-          ) : null}
-          {amount.map((item) => {
-            return (
-              <View
-                key={item.id}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  height: 60,
-                }}>
-                <Checkbox
-                  height={20}
-                  width={20}
+                });
+                setAmount(temp);
+              }}
+              checkedColor="#9392ff"></Checkbox>
+
+            <View style={{width: '40%', position: 'relative', top: 10}}>
+              {item.paid ? (
+                <Input
+                  isAmount={true}
+                  sizeMini={true}
                   id={item.id}
-                  label={item.person}
-                  labelStyle={{fontSize: 20}}
-                  checked={item.shared}
-                  onChange={(val) => {
+                  onChangeText={(val, id) => {
                     let temp = [...amount];
                     temp.map((each) => {
-                      if (each.id === val.id) {
-                        each.shared = val.checked;
+                      if (each.id === id) {
+                        each.amount = val;
                       }
                     });
                     setAmount(temp);
                   }}
-                  checkedColor="#9392ff"></Checkbox>
-
-                <View style={{width: '40%', position: 'relative', top: 10}}>
-                  {item.shared ? (
-                    <Input
-                      isAmount={true}
-                      sizeMini={true}
-                      id={item.id}
-                      onChangeText={(val, id) => {
-                        let temp = [...amount];
-                        temp.map((each) => {
-                          if (each.id === id) {
-                            each.share = val;
-                          }
-                        });
-                        setAmount(temp);
-                      }}
-                      value={item.share}></Input>
-                  ) : null}
-                </View>
-              </View>
-            );
-          })}
-          <View style={{width: '100%', alignItems: 'center'}}>
-            <Button title="Add" onPress={transactionHandler}></Button>
+                  value={item.amount}></Input>
+              ) : null}
+            </View>
           </View>
-        </ScrollView>
+        );
+      })}
+      <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
+        Paid To
+      </Text>
+      {totalAmount !== 0 ? (
+        <Text type="sub-heading" style={{alignSelf: 'flex-start'}}>
+          Split equally:{' '}
+          <Switch
+            inactiveBackgroundColor="#c1c1c1"
+            onPress={() => {
+              if (!paidEqually) {
+                const temp = [...amount];
+                temp.map((each) => {
+                  each.shared = true;
+                  each.share = (totalAmount / temp.length).toString();
+                });
+                setAmount(temp);
+              } else {
+                const temp = [...amount];
+                temp.map((each) => {
+                  each.shared = false;
+                });
+                setAmount(temp);
+              }
+              setPaidEqually(!paidEqually);
+            }}
+            active={paidEqually}></Switch>
+        </Text>
+      ) : null}
+      {amount.map((item) => {
+        return (
+          <View
+            key={item.id}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              height: 60,
+            }}>
+            <Checkbox
+              height={20}
+              width={20}
+              id={item.id}
+              label={item.person}
+              labelStyle={{fontSize: 20}}
+              checked={item.shared}
+              onChange={(val) => {
+                let temp = [...amount];
+                temp.map((each) => {
+                  if (each.id === val.id) {
+                    each.shared = val.checked;
+                  }
+                });
+                setAmount(temp);
+              }}
+              checkedColor="#9392ff"></Checkbox>
+
+            <View style={{width: '40%', position: 'relative', top: 10}}>
+              {item.shared ? (
+                <Input
+                  isAmount={true}
+                  sizeMini={true}
+                  id={item.id}
+                  onChangeText={(val, id) => {
+                    let temp = [...amount];
+                    temp.map((each) => {
+                      if (each.id === id) {
+                        each.share = val;
+                      }
+                    });
+                    setAmount(temp);
+                  }}
+                  value={item.share}></Input>
+              ) : null}
+            </View>
+          </View>
+        );
+      })}
+      <Text>Remaining balance: {remaining}</Text>
+      <View style={{width: '100%', alignItems: 'center', marginBottom: 100}}>
+        <Button
+          title="Add"
+          onPress={transactionHandler}
+          disabled={
+            !totalAmount ||
+            totalAmount === 0 ||
+            props.placeName.placeName.trim() === '' ||
+            remaining !== 0
+          }></Button>
       </View>
-    </>
+    </ScrollView>
   );
 };
 

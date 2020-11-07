@@ -31,12 +31,19 @@ const T1 = (props) => {
         isAmount={true}
         onChangeText={(val) => setAmount(val)}
         value={amount}
-        label="Enter Amount"></Input>
+        label="Enter Amount"
+        error={amount.trim() === '' || amount === '0'}
+        errorMessage="* required and non-zero"></Input>
       <Text type="sub-content" color="red">
         {isNaN(amount) ? 'Amount should be a number' : null}
       </Text>
       <Button
         title="Add"
+        disabled={
+          amount.trim() === '' ||
+          amount === '0' ||
+          props.placeName.placeName.trim() === ''
+        }
         onPress={() =>
           addTransactions(
             {[props.currentUser]: amount},
@@ -48,6 +55,7 @@ const T1 = (props) => {
               placeName: props.placeName.placeName,
             },
             setCompleted,
+            completed,
           )
         }></Button>
     </View>

@@ -13,8 +13,13 @@ const T2 = (props) => {
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
-    props.setPlaceName({...props.placeName, placeName: ''});
-    setTotalAmount('0');
+    if (completed) {
+      props.setPlaceName({...props.placeName, placeName: ''});
+      setTotalAmount('0');
+      amount.forEach((person) => {
+        person.paid = false;
+      });
+    }
   }, [completed]);
 
   useEffect(() => {
@@ -29,8 +34,28 @@ const T2 = (props) => {
     });
     setAmount(tempAmount);
   }, []);
+
+  useEffect(() => {
+    let tempAmt = 0;
+    amount.forEach((person) => {
+      if (person.paid && person.amount !== '')
+        tempAmt = tempAmt + parseFloat(person.amount);
+    });
+    setRemaining(parseFloat(totalAmount) - tempAmt);
+  }, [amount]);
+
+  const inputChangeHandler = async (val) => {
+    await setTotalAmount(val);
+    let tempAmt = 0;
+    amount.forEach((person) => {
+      tempAmt = tempAmt + parseFloat(person.amount);
+    });
+    setRemaining(parseFloat(val ? val : 0) - tempAmt);
+  };
+
   const [totalAmount, setTotalAmount] = useState('0');
   const [paidEqually, setPaidEqually] = useState(false);
+  const [remaining, setRemaining] = useState(totalAmount);
   const transactionHandler = () => {
     let split = {};
     amount.forEach((person) => {
@@ -46,15 +71,18 @@ const T2 = (props) => {
         placeName: props.placeName.placeName,
       },
       setCompleted,
+      completed,
     );
   };
   return (
     <>
       <Input
         isAmount={true}
-        onChangeText={(val) => setTotalAmount(val)}
+        onChangeText={(val) => inputChangeHandler(val)}
         value={totalAmount}
-        label="Enter Amount"></Input>
+        label="Enter Amount"
+        error={totalAmount.trim() === '' || totalAmount === '0'}
+        errorMessage="* required and non-zero"></Input>
       <Text type="sub-content" color="red">
         {isNaN(totalAmount) ? 'Amount should be a number' : null}
       </Text>
@@ -135,8 +163,17 @@ const T2 = (props) => {
               </View>
             );
           })}
+          <Text>Remaining balance: {remaining}</Text>
           <View style={{width: '100%', alignItems: 'center'}}>
-            <Button title="Add" onPress={transactionHandler}></Button>
+            <Button
+              title="Add"
+              onPress={transactionHandler}
+              disabled={
+                totalAmount.trim() === '' ||
+                totalAmount === '0' ||
+                props.placeName.placeName.trim() === '' ||
+                remaining !== 0
+              }></Button>
           </View>
         </ScrollView>
       </View>

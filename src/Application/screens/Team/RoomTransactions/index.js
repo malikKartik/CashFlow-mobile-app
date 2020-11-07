@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -8,44 +8,26 @@ import {
   Image,
 } from 'react-native';
 import TextComp from '../../../components/Text';
-import TransactionCard from '../AllTransactions/TransactionCard';
 import {useNavigation} from '@react-navigation/native';
-
-const data = [
-  {
-    text: 'Karan owes Prerna',
-    type: 'none',
-    amount: '100 Rs',
-    date: '25th Sept 2020',
-    id: '1',
-  },
-  {
-    text: 'You owe Prerna',
-    type: 'debit',
-    amount: '200 Rs',
-    date: '25th Sept 2020',
-    id: '2',
-  },
-  {
-    text: 'Karan owes You',
-    type: 'credit',
-    amount: '100 Rs',
-    date: '25th Sept 2020',
-    id: '3',
-  },
-  {
-    text: 'Karan owes Prerna',
-    type: 'none',
-    amount: '100 Rs',
-    date: '25th Sept 2020',
-    id: '4',
-  },
-];
+import RoomCard from './RoomCard';
+import {connect} from 'react-redux';
+import {post} from '../../../requests';
 
 const RoomTransactions = (props) => {
+  const [transactions, setTransactions] = useState([]);
+  useEffect(() => {
+    post({route: '/api/places/getTransactions', body: {id: props.place}})
+      .then((data) => {
+        console.log(data);
+        setTransactions(data.transactions);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const navigation = useNavigation();
   const renderItem = ({item, index}) => {
-    return <TransactionCard item={item}></TransactionCard>;
+    return <RoomCard {...item}></RoomCard>;
   };
   return (
     <View style={styles.container}>
@@ -59,7 +41,7 @@ const RoomTransactions = (props) => {
       </TextComp>
       <View style={{marginTop: 20}}>
         <FlatList
-          data={data}
+          data={transactions}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}></FlatList>
       </View>
@@ -75,4 +57,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RoomTransactions;
+const mapStateToProps = (state) => {
+  return {
+    place: state.team.currentRoom,
+  };
+};
+
+export default connect(mapStateToProps)(RoomTransactions);

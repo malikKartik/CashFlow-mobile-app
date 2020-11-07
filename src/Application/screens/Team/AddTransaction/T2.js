@@ -11,7 +11,7 @@ const T2 = (props) => {
   const users = [];
   props.team.currentTeamData.users.forEach((user) => {
     users.push({
-      person: user.firstName,
+      person: user.username,
       paid: false,
       amount: '0',
       id: user._id,
@@ -19,6 +19,7 @@ const T2 = (props) => {
   });
   const [amount, setAmount] = useState([...users]);
   const [completed, setCompleted] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     props.setPlaceName({...props.placeName, placeName: ''});
@@ -34,6 +35,15 @@ const T2 = (props) => {
     });
     return tempPaid;
   };
+
+  useEffect(() => {
+    let tempAmt = 0;
+    amount.forEach((person) => {
+      if (person.paid && person.amount.trim() !== '')
+        tempAmt = tempAmt + parseFloat(person.amount);
+    });
+    setTotalAmount(tempAmt);
+  }, [amount]);
 
   const equalSplit = () => {
     let allUsers = {};
@@ -114,11 +124,17 @@ const T2 = (props) => {
                 {
                   teamId: props.team.currentTeam,
                   bill: 'None',
-                  placeName: props.placeName,
+                  placeName: props.placeName.placeName,
                 },
                 setCompleted,
+                completed,
               );
-            }}></Button>
+            }}
+            disabled={
+              !totalAmount ||
+              totalAmount === 0 ||
+              props.placeName.placeName.trim() === ''
+            }></Button>
         </View>
       </ScrollView>
     </View>

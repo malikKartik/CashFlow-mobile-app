@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const INITIAL_STATE = {
   currentTeam: '',
   currentTeamData: {},
+  currentRoom: '',
 };
 
 const teamReducer = (state = INITIAL_STATE, action) => {
@@ -23,6 +24,8 @@ const teamReducer = (state = INITIAL_STATE, action) => {
       let teamData = {...state.currentTeamData};
       teamData.places.push(action.data);
       return {...state, currentTeamData: teamData};
+    case actionTypes.SET_CURRENT_ROOM:
+      return {...state, currentRoom: action.id};
     default:
       return state;
   }
