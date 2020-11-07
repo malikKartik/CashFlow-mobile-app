@@ -71,6 +71,7 @@ const T2 = (props) => {
         placeName: props.placeName.placeName,
       },
       setCompleted,
+      completed,
     );
   };
   return (

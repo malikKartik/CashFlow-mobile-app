@@ -5,6 +5,8 @@ import IntroductionScreens from './src/IntroductionScreens';
 import Application from './src/Application';
 import {connect} from 'react-redux';
 import * as actions from './src/store/actions';
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
 
 const App = (props) => {
   const [isIntroduced, setIsIntroduced] = useState(false);

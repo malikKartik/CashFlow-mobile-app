@@ -55,6 +55,7 @@ const T1 = (props) => {
               placeName: props.placeName.placeName,
             },
             setCompleted,
+            completed,
           )
         }></Button>
     </View>

@@ -2,41 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import TextComp from '../../../components/Text';
 import TransactionCard from './TransactionCard';
-
-const data = [
-  {
-    text: 'Karan owes Prerna',
-    type: 'none',
-    amount: '100 Rs',
-    place: 'The chocolate Room',
-    date: '25th Sept 2020',
-    id: '1',
-  },
-  {
-    text: 'You owe Prerna',
-    type: 'debit',
-    amount: '200 Rs',
-    place: 'The chocolate Room',
-    date: '25th Sept 2020',
-    id: '2',
-  },
-  {
-    text: 'Karan owes You',
-    type: 'credit',
-    amount: '100 Rs',
-    place: 'The chocolate Room',
-    date: '25th Sept 2020',
-    id: '3',
-  },
-  {
-    text: 'Karan owes Prerna',
-    type: 'none',
-    amount: '100 Rs',
-    place: 'The chocolate Room',
-    date: '25th Sept 2020',
-    id: '4',
-  },
-];
+import {connect} from 'react-redux';
 
 const AllTransactions = (props) => {
   const renderItem = ({item, index}) => {
@@ -45,13 +11,13 @@ const AllTransactions = (props) => {
   return (
     <View style={styles.container}>
       <TextComp type="heading" marginVertical={1}>
-        Bangalore Trip
+        {props.team.teamName}
       </TextComp>
       <View style={{marginTop: 20}}>
         <FlatList
-          data={data}
+          data={props.team.places}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}></FlatList>
+          keyExtractor={(item) => item._id}></FlatList>
       </View>
     </View>
   );
@@ -64,4 +30,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AllTransactions;
+const mapStateToProps = (state) => {
+  return {
+    team: state.team.currentTeamData,
+  };
+};
+
+export default connect(mapStateToProps)(AllTransactions);
