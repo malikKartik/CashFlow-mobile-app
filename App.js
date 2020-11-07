@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, AsyncStorage, StatusBar} from 'react-native';
+import {View, SafeAreaView, Text, AsyncStorage, StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import IntroductionScreens from './src/IntroductionScreens';
 import Application from './src/Application';
