@@ -7,12 +7,12 @@ import {connect} from 'react-redux';
 import * as actions from '../../../../store/actions';
 import {addTransactions} from '../../../constants/utilityFunctions';
 const T1 = (props) => {
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState('0');
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     props.setPlaceName({...props.placeName, placeName: ''});
-    setAmount('');
+    setAmount('0');
   }, [completed]);
 
   const equalSplit = (totalAmount, users) => {

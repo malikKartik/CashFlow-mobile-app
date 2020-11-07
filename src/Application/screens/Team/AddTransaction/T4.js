@@ -12,6 +12,7 @@ const T2 = (props) => {
   const [amount, setAmount] = useState([]);
   const [completed, setCompleted] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [remaining, setRemaining] = useState(0);
 
   useEffect(() => {
     props.setPlaceName({...props.placeName, placeName: ''});
@@ -38,8 +39,14 @@ const T2 = (props) => {
     amount.forEach((person) => {
       tempAmt = tempAmt + parseInt(person.amount);
     });
+    let splitAmt = 0;
+    amount.forEach((person) => {
+      splitAmt = splitAmt + parseInt(person.share);
+    });
     setTotalAmount(tempAmt);
+    setRemaining(parseFloat(tempAmt) - parseFloat(splitAmt));
   }, [amount]);
+
   const [paidEqually, setPaidEqually] = useState(false);
 
   const transactionHandler = () => {
@@ -196,8 +203,17 @@ const T2 = (props) => {
               </View>
             );
           })}
+          <Text>Remaining balance: {remaining}</Text>
           <View style={{width: '100%', alignItems: 'center'}}>
-            <Button title="Add" onPress={transactionHandler}></Button>
+            <Button
+              title="Add"
+              onPress={transactionHandler}
+              disabled={
+                !totalAmount ||
+                totalAmount === 0 ||
+                props.placeName.placeName.trim() === '' ||
+                remaining !== 0
+              }></Button>
           </View>
         </ScrollView>
       </View>
