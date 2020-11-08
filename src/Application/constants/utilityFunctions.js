@@ -116,7 +116,7 @@ export const addTransactions = (
   };
   post({route: '/api/transactions/addTransactions', body: finalData})
     .then((data) => {
-      store.dispatch(actions.addPlace(data));
+      store.dispatch(actions.addPlace(data.place));
       setCompleted(!completed);
     })
     .catch((e) => {
