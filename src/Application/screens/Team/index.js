@@ -4,6 +4,7 @@ import Tabs from '../../components/Tabs';
 import AddTransaction from './AddTransaction';
 import AllTransactions from './AllTransactions';
 import TeamDashboard from './TeamDashboard';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions';
 
@@ -21,8 +22,20 @@ const Team = (props) => {
   const onTapRight = () => {
     setActiveTab('right');
   };
+
+  const handleLeftSwipe = () => {
+    if (activeTab === 'left') setActiveTab('mid');
+  };
+
+  const handleRightSwipe = () => {
+    if (activeTab === 'mid') setActiveTab('left');
+    if (activeTab === 'right') setActiveTab('mid');
+  };
+
   return (
-    <>
+    <GestureRecognizer
+      onSwipeLeft={() => handleLeftSwipe()}
+      onSwipeRight={() => handleRightSwipe()}>
       <View style={styles.container}>
         <TouchableWithoutFeedback
           onPress={() => props.navigation.navigate('Main Tab')}>
@@ -48,7 +61,7 @@ const Team = (props) => {
         ) : null}
         {activeTab === 'right' ? <AddTransaction></AddTransaction> : null}
       </View>
-    </>
+    </GestureRecognizer>
   );
 };
 
