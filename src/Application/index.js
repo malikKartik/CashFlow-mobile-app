@@ -8,6 +8,7 @@ import BottomNav from './screens/BottomNav';
 import Team from './screens/Team';
 import AddMember from './screens/Team/AddMember';
 import RoomTransactions from './screens/Team/RoomTransactions';
+import SimplifiedTransactions from './screens/Team/SimplifiedTransactions';
 import Toast from './hoc/Toast';
 import {connect} from 'react-redux';
 const navigatorTheme = {
@@ -44,6 +45,9 @@ const Application = (props) => {
             <Stack.Screen
               name="Add Member"
               component={AddMember}></Stack.Screen>
+            <Stack.Screen
+              name="Simplified Transactions"
+              component={SimplifiedTransactions}></Stack.Screen>
             <Stack.Screen
               name="Room Transaction"
               component={RoomTransactions}></Stack.Screen>
