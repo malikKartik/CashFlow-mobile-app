@@ -6,28 +6,59 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Image,
+  Dimensions,
 } from 'react-native';
 import TextComp from '../../../components/Text';
 import {useNavigation} from '@react-navigation/native';
 import RoomCard from './RoomCard';
 import {connect} from 'react-redux';
 import {post} from '../../../requests';
-
+import Button from '../../../components/Button';
+const {height, width} = Dimensions.get('window');
 const RoomTransactions = (props) => {
   const [transactions, setTransactions] = useState([]);
+  const [placeName, setPlaceName] = useState('');
   useEffect(() => {
+    handleGetTransactions();
+  }, []);
+  const navigation = useNavigation();
+  const renderItem = ({item, index}) => {
+    return (
+      <RoomCard
+        {...item}
+        handleSettleTransaction={handleSettleTransaction}></RoomCard>
+    );
+  };
+
+  const handleGetTransactions = () => {
     post({route: '/api/places/getTransactions', body: {id: props.place}})
       .then((data) => {
         console.log(data);
         setTransactions(data.transactions);
+        setPlaceName(data.name);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-  const navigation = useNavigation();
-  const renderItem = ({item, index}) => {
-    return <RoomCard {...item}></RoomCard>;
+  };
+  const handleSettleTransaction = (tranId) => {
+    post({route: '/api/transactions/settleTransaction', body: {id: tranId}})
+      .then((data) => {
+        handleGetTransactions();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const settleAllTransactions = () => {
+    post({route: '/api/places/settleAllTransactions', body: {id: props.place}})
+      .then((data) => {
+        handleGetTransactions();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <View style={styles.container}>
@@ -37,13 +68,17 @@ const RoomTransactions = (props) => {
           style={{marginBottom: 20}}></Image>
       </TouchableWithoutFeedback>
       <TextComp type="heading" marginVertical={1}>
-        Chocolate Room
+        {placeName}
       </TextComp>
-      <View style={{marginTop: 20}}>
+      <TextComp type="sub-content" textAlign="center" size={12} color="#aaa">
+        Swipe a card to settle a transaction
+      </TextComp>
+      <Button title="Settle All" onPress={settleAllTransactions}></Button>
+      <View style={{marginTop: 15, height: '100%'}}>
         <FlatList
           data={transactions}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}></FlatList>
+          keyExtractor={(item) => item._id}></FlatList>
       </View>
     </View>
   );
@@ -54,6 +89,7 @@ const styles = StyleSheet.create({
     width: '90%',
     marginTop: 12,
     marginHorizontal: '5%',
+    height: '100%',
   },
 });
 
