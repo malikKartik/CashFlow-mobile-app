@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import * as actions from './src/store/actions';
 
 const App = (props) => {
+  console.disableYellowBox = true;
   const [isIntroduced, setIsIntroduced] = useState(false);
   useEffect(() => {
     const func = async () => {

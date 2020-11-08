@@ -12,12 +12,21 @@ import * as actions from '../../../store/actions';
 const Teams = (props) => {
   const [search, setSearch] = useState('');
   const [refreshing, setRefreshing] = React.useState(false);
+  const [searchResult, setSearchResult] = useState(props.teams);
   console.log(props.teams);
   const onRefresh = () => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
+  };
+
+  const handleSearch = (val) => {
+    setSearch(val);
+    let tempArr = props.teams.filter((team) => {
+      return team.teamName.toLowerCase().includes(val.toLowerCase());
+    });
+    setSearchResult(tempArr);
   };
 
   const swipeLeft = (progress, dragX, secret) => {
@@ -42,7 +51,7 @@ const Teams = (props) => {
     <>
       <View style={{width: '90%'}}>
         <Input
-          onChangeText={(val) => setSearch(val)}
+          onChangeText={(val) => handleSearch(val)}
           value={search}
           icon={
             <Image
@@ -63,8 +72,8 @@ const Teams = (props) => {
         <Text type="sub-content" textAlign="center" size={12} color="#aaa">
           Swipe the card left to see the team password
         </Text>
-        {props.teams
-          ? props.teams.map((team) => {
+        {searchResult
+          ? searchResult.map((team) => {
               return (
                 <Swipeable
                   friction={1.5}

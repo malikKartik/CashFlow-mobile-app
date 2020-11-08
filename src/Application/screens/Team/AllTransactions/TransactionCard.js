@@ -28,6 +28,8 @@ const TransactionCard = (props) => {
     );
   };
   const item = props.item;
+  console.log('Card props');
+  console.log(item);
   const timestamp = item._id.toString().substring(0, 8);
   const date = new Date(parseInt(timestamp, 16) * 1000);
   const fullDate =
