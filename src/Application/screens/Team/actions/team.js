@@ -58,9 +58,15 @@ export const addMember = ({teamid, username}) => {
 };
 
 export const addPlace = (data) => {
-  console.log(data);
   return {
     type: actionTypes.ADD_PLACE,
     data,
+  };
+};
+
+export const setCurrentRoom = (id) => {
+  return {
+    type: actionTypes.SET_CURRENT_ROOM,
+    id: id,
   };
 };

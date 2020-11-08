@@ -19,7 +19,9 @@ const AddTransaction = () => {
         label="Transaction Name"
         onChangeText={(val) => setFormData({...formData, placeName: val})}
         value={formData.placeName}
-        placeholder="Enter Transaction Name"></Input>
+        placeholder="Enter Transaction Name"
+        error={formData.placeName.trim() === ''}
+        errorMessage="* required"></Input>
       <Dropdown
         selectedValue={formData.type}
         width="100%"

@@ -41,7 +41,14 @@ const checkValidation = (value, rules) => {
 
 // paid is an object {userId:paid amount}
 // paid is an object {userId:split amount}
-export const addTransactions = (paid, split, allUsers, specs, setCompleted) => {
+export const addTransactions = (
+  paid,
+  split,
+  allUsers,
+  specs,
+  setCompleted,
+  completed,
+) => {
   console.log(paid);
   console.log(split);
   let transactions = [];
@@ -110,7 +117,7 @@ export const addTransactions = (paid, split, allUsers, specs, setCompleted) => {
   post({route: '/api/transactions/addTransactions', body: finalData})
     .then((data) => {
       store.dispatch(actions.addPlace(data));
-      setCompleted(true);
+      setCompleted(!completed);
     })
     .catch((e) => {
       console.log(e);
