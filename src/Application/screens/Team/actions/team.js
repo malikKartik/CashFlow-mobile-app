@@ -52,7 +52,10 @@ export const addMember = ({teamid, username}) => {
               username: data.username,
             }),
           );
-          socket.emit('notification', {userId: data._id});
+          socket.emit('notification', {
+            data: {userId: data._id},
+            type: 'ADDED_TO_TEAM',
+          });
         }
       })
       .catch((e) => {

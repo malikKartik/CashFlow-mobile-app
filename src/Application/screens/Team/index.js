@@ -7,11 +7,21 @@ import TeamDashboard from './TeamDashboard';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions';
+import io from 'socket.io-client';
+import url from '../../constants/url';
+const socket = io(url, {transports: ['websocket']});
 
 const Team = (props) => {
   const [activeTab, setActiveTab] = useState('left');
   useEffect(() => {
+    socket.emit('joinRoom', {
+      userId: props.userId,
+    });
     props.onGetTeam({id: props.currentTeam});
+    socket.on('notification', async (payload) => {
+      props.onGetTeam({id: props.currentTeam});
+      console.log(payload);
+    });
   }, []);
   const onTapLeft = () => {
     setActiveTab('left');
@@ -78,6 +88,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     currentTeam: state.team.currentTeam,
+    userId: state.auth.userData.userId,
   };
 };
 
