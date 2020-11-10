@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import * as actions from './src/store/actions';
 
 const App = (props) => {
-  console.disableYellowBox = true;
   const [isIntroduced, setIsIntroduced] = useState(false);
   useEffect(() => {
     const func = async () => {
@@ -42,6 +41,8 @@ const App = (props) => {
     func();
   }, [props.isLoggedIn]);
 
+  console.disableYellowBox = true;
+  console.warn = () => {};
   return (
     <>
       <StatusBar backgroundColor="white" barStyle="dark-content" />

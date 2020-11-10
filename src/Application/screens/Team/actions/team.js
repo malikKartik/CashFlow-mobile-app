@@ -1,5 +1,8 @@
 import * as actionTypes from './actionTypes';
 import {get, post} from '../../../requests';
+import url from '../../../constants/url';
+import io from 'socket.io-client';
+const socket = io(url, {transports: ['websocket']});
 
 export const setCurrentTeam = ({id}) => {
   return {
@@ -49,6 +52,7 @@ export const addMember = ({teamid, username}) => {
               username: data.username,
             }),
           );
+          socket.emit('notification', {userId: data._id});
         }
       })
       .catch((e) => {

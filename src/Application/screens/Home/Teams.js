@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {Animated, Image, ScrollView, View, RefreshControl} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  Animated,
+  Image,
+  ScrollView,
+  View,
+  RefreshControl,
+  AsyncStorage,
+} from 'react-native';
 import Text from '../../components/Text';
 import Card from '../../components/Card';
 import Input from '../../components/Input';
@@ -8,6 +15,10 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {RectButton} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import * as actions from '../../../store/actions';
+import io from 'socket.io-client';
+import url from '../../constants/url';
+import SplashScreen from 'react-native-splash-screen';
+const socket = io(url, {transports: ['websocket']});
 
 const Teams = (props) => {
   const [search, setSearch] = useState('');
@@ -21,6 +32,21 @@ const Teams = (props) => {
     }, 2000);
   };
 
+  useEffect(() => {
+    socket.emit('joinRoom', {
+      userId: props.userId,
+    });
+    socket.on('notification', async (payload) => {
+      const token = await AsyncStorage.getItem('token');
+      if (payload.type === 'ADDED_TO_TEAM')
+        props.onValidate({
+          token,
+          hideSplashScreen: () => {
+            SplashScreen.hide();
+          },
+        });
+    });
+  }, []);
   const handleSearch = (val) => {
     setSearch(val);
     let tempArr = props.teams.filter((team) => {
@@ -28,6 +54,10 @@ const Teams = (props) => {
     });
     setSearchResult(tempArr);
   };
+
+  useEffect(() => {
+    setSearchResult(props.teams);
+  }, [props.teams]);
 
   const swipeLeft = (progress, dragX, secret) => {
     return (
@@ -102,12 +132,15 @@ const Teams = (props) => {
 const mapStateToProps = (state) => {
   return {
     teams: state.auth.userData.teams,
+    userId: state.auth.userData.userId,
   };
 };
 
 const mapDispathToProps = (dispatch) => {
   return {
     onSelectTeam: ({id}) => dispatch(actions.setCurrentTeam({id})),
+    onValidate: ({token, hideSplashScreen}) =>
+      dispatch(actions.validate({token, hideSplashScreen})),
   };
 };
 
