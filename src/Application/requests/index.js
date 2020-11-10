@@ -22,6 +22,7 @@ export const get = (params) => {
 
 export const post = (params) => {
   return new Promise((resolve, reject) => {
+    store.dispatch(actions.setLoading());
     axios
       .post(
         url + params.route,
@@ -32,6 +33,7 @@ export const post = (params) => {
         },
       )
       .then((data) => {
+        store.dispatch(actions.stopLoading());
         resolve(data.data);
       })
       .catch((e) => {

@@ -1,6 +1,9 @@
 import {post} from '../requests';
 import {store} from '../../../index';
 import * as actions from '../../store/actions';
+import io from 'socket.io-client';
+import url from '../constants/url';
+const socket = io(url, {transports: ['websocket']});
 
 export const inputChangeHandler = (input, e, type) => {
   let updatedInput = {...input};
@@ -118,6 +121,15 @@ export const addTransactions = (
     .then((data) => {
       store.dispatch(actions.addPlace(data.place));
       setCompleted(!completed);
+      let users = [];
+      data.transactions.map((transaction) => {
+        users.push(transaction.from);
+        users.push(transaction.to);
+      });
+      socket.emit('notification', {
+        data: {users: users},
+        type: 'TRANSACTION_ADDED',
+      });
     })
     .catch((e) => {
       console.log(e);
