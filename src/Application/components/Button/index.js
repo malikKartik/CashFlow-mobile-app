@@ -17,12 +17,14 @@ const Button = (props) => {
 
   //   Local components
   const BlockButton = () => (
-    <TouchableOpacity onPress={props.onPress} style={styles.container}>
-      <Text style={styles.text}>{props.title}</Text>
-    </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={props.onPress} disabled={props.disabled}>
+      <View style={styles.container}>
+        <Text style={styles.text}>{props.title}</Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
   const TextButton = () => (
-    <TouchableWithoutFeedback onPress={props.onPress}>
+    <TouchableWithoutFeedback onPress={props.onPress} disabled={props.disabled}>
       <View style={styles.containerTextButton}>
         <Text style={styles.textTextButton}>{props.title}</Text>
       </View>
@@ -46,24 +48,35 @@ const styleSheet = (props) => {
     container: {
       width: props.width ? props.width : 100,
       height: props.height ? props.height : 35,
-      backgroundColor: props.ButtonColor ? props.ButtonColor : '#9392ff',
+      backgroundColor: props.disabled
+        ? '#B8B8B8'
+        : props.buttonColor
+        ? props.buttonColor
+        : '#9392ff',
       borderRadius: props.borderRadius ? props.borderRadius : 5,
       justifyContent: 'center',
       alignItems: 'center',
+      marginVertical: props.marginVertical ? props.marginVertical : 5,
+      alignSelf: props.alignSelf ? props.alignSelf : 'auto',
     },
     containerTextButton: {
       width: props.width ? props.width : 100,
       height: props.height ? props.height : 25,
-      backgroundColor: props.ButtonColor ? props.ButtonColor : '#9392ff00',
+      backgroundColor: props.disabled
+        ? '#B8B8B8'
+        : props.buttonColor
+        ? props.buttonColor
+        : '#9392ff00',
       borderRadius: props.borderRadius ? props.borderRadius : 5,
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: props.alignSelf ? props.alignSelf : 'auto',
     },
     text: {
-      color: 'white',
+      color: props.textColor ? props.textColor : 'white',
     },
     textTextButton: {
-      color: '#9392ff',
+      color: props.textColor ? props.textColor : '#9392ff',
     },
   });
 };

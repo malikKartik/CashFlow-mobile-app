@@ -1,19 +1,24 @@
-import React from 'react'
-import { View,Text} from 'react-native';
-const Card = ({item,imdex}) =>{
-    return(
-        <View style={{
-            backgroundColor:'blue',
-            borderRadius: 5,
-            height: 250,
-            width: "100%",
-            padding: 50,
-            marginTop: "10%",
-            }}>
-          <Text style={{fontSize: 30}}>{item.text}</Text>
-          <Text>{item.text}</Text>
-        </View>
-    )
-}
+import React from 'react';
+import {View, Text, Image, StyleSheet} from 'react-native';
+const Card = (props) => {
+  return (
+    <View
+      style={{
+        borderRadius: 5,
+        height: 400,
+        width: '100%',
+      }}>
+      <Image source={props.source} style={styles.image}></Image>
+    </View>
+  );
+};
 
-export default Card
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+});
+
+export default Card;
