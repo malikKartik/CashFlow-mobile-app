@@ -21,10 +21,10 @@ const {height, width} = Dimensions.get('window');
 const Team = (props) => {
   const [activeTab, setActiveTab] = useState('left');
   useEffect(() => {
+    props.onGetTeam({id: props.currentTeam});
     socket.emit('joinRoom', {
       userId: props.userId,
     });
-    props.onGetTeam({id: props.currentTeam});
     socket.on('notification', async (payload) => {
       props.onGetTeam({id: props.currentTeam});
       console.log(payload);
