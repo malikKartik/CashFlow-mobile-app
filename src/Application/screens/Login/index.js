@@ -17,11 +17,10 @@ const Login = (props) => {
       value: '',
       validation: {
         required: true,
-        regex: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/,
       },
       valid: false,
       touched: false,
-      errorMessage: '* required, should be a valid email',
+      errorMessage: '* required, should be a valid email or a username',
     },
     password: {
       value: '',
@@ -57,8 +56,8 @@ const Login = (props) => {
           Login
         </TextComp>
         <Input
-          label="Email Id"
-          placeholder="Enter Email Address"
+          label="Email Id or Username"
+          placeholder="Enter Email Address or Username"
           value={input.email.value}
           error={input.email.touched && !input.email.valid}
           errorMessage={input.email.errorMessage}
@@ -66,6 +65,7 @@ const Login = (props) => {
         <Input
           label="Password"
           placeholder="Enter Password"
+          contentType="password"
           value={input.password.value}
           error={input.password.touched && !input.password.valid}
           errorMessage={input.password.errorMessage}
