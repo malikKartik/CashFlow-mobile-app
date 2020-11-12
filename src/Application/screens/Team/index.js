@@ -1,5 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {TouchableWithoutFeedback, Image, View, StyleSheet} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {
+  TouchableWithoutFeedback,
+  Image,
+  View,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import Tabs from '../../components/Tabs';
 import AddTransaction from './AddTransaction';
 import AllTransactions from './AllTransactions';
@@ -10,6 +16,7 @@ import * as actions from '../../../store/actions';
 import io from 'socket.io-client';
 import url from '../../constants/url';
 const socket = io(url, {transports: ['websocket']});
+const {height, width} = Dimensions.get('window');
 
 const Team = (props) => {
   const [activeTab, setActiveTab] = useState('left');
@@ -81,7 +88,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    height: '100%',
+    height: height - 220,
   },
 });
 

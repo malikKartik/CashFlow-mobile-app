@@ -5,7 +5,6 @@ import TransactionCard from './TransactionCard';
 import {connect} from 'react-redux';
 
 const AllTransactions = (props) => {
-  console.log(props.team.places);
   const renderItem = ({item, index}) => {
     return <TransactionCard item={item} {...props}></TransactionCard>;
   };
