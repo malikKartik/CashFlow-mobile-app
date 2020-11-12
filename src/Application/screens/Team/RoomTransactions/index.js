@@ -27,6 +27,9 @@ const RoomTransactions = (props) => {
   }, []);
 
   useEffect(() => {
+    socket.emit('joinRoom', {
+      userId: props.userId,
+    });
     socket.on('notification', (payload) => {
       if (
         payload.type === 'SETTLED_A_TRANSACTION' &&
@@ -57,7 +60,6 @@ const RoomTransactions = (props) => {
   const handleSettleTransaction = (tranId) => {
     post({route: '/api/transactions/settleTransaction', body: {id: tranId}})
       .then((data) => {
-        handleGetTransactions();
         socket.emit('notification', {
           data: {placeId: props.place, users: props.currentTeamData.users},
           type: 'SETTLED_A_TRANSACTION',
@@ -71,7 +73,6 @@ const RoomTransactions = (props) => {
   const settleAllTransactions = () => {
     post({route: '/api/places/settleAllTransactions', body: {id: props.place}})
       .then((data) => {
-        handleGetTransactions();
         socket.emit('notification', {
           data: {placeId: props.place, users: props.currentTeamData.users},
           type: 'SETTLED_A_TRANSACTION',
@@ -118,6 +119,7 @@ const mapStateToProps = (state) => {
   return {
     place: state.team.currentRoom,
     currentTeamData: state.team.currentTeamData,
+    userId: state.auth.userData.userId,
   };
 };
 
