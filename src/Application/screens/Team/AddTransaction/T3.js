@@ -75,7 +75,7 @@ const T2 = (props) => {
     );
   };
   return (
-    <>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <Input
         isAmount={true}
         onChangeText={(val) => inputChangeHandler(val)}
@@ -113,7 +113,9 @@ const T2 = (props) => {
             }}
             active={paidEqually}></Switch>
         </Text>
-        <ScrollView style={{width: '100%', display: 'flex'}}>
+        <ScrollView
+          style={{width: '100%', display: 'flex'}}
+          showsVerticalScrollIndicator={false}>
           {amount.map((item) => {
             return (
               <View
@@ -164,7 +166,7 @@ const T2 = (props) => {
             );
           })}
           <Text>Remaining balance: {remaining}</Text>
-          <View style={{width: '100%', alignItems: 'center'}}>
+          <View style={{width: '100%', alignItems: 'center', marginBottom: 70}}>
             <Button
               title="Add"
               onPress={transactionHandler}
@@ -177,7 +179,7 @@ const T2 = (props) => {
           </View>
         </ScrollView>
       </View>
-    </>
+    </ScrollView>
   );
 };
 

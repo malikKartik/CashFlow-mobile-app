@@ -38,39 +38,40 @@ const TeamDashboard = (props) => {
       </View>
       <View style={styles.horizontalLine}></View>
       <View style={styles.container}>
-        <View style={{flexDirection: 'row'}}>
-          <TextComp type="content">Taken by you: </TextComp>
-          <TextComp type="content" amountType="debit">
-            {parseFloat(taken).toFixed(2)} Rs
-          </TextComp>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <TextComp type="content">Given by you: </TextComp>
-          <TextComp type="content" amountType="credit">
-            {parseFloat(given).toFixed(2)} Rs
-          </TextComp>
-        </View>
-        <View style={{marginTop: 15, marginBottom: 10}}>
-          <TextComp>Members: </TextComp>
-        </View>
-        <FlatList
-          data={props.teamData.users}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-          style={{maxHeight: 250}}
-          showsVerticalScrollIndicator={false}></FlatList>
-        <View style={{marginTop: 20, alignItems: 'center'}}>
-          <Button
-            title="Add Member"
-            onPress={() => props.navigation.navigate('Add Member')}></Button>
-          <Button
-            title="Show simplified transactions to settle"
-            width={300}
-            buttonColor={'rgba(255, 20, 10, 1)'}
-            onPress={() =>
-              props.navigation.navigate('Simplified Transactions')
-            }></Button>
-        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{flexDirection: 'row'}}>
+            <TextComp type="content">Taken by you: </TextComp>
+            <TextComp type="content" amountType="debit">
+              {parseFloat(taken).toFixed(2)} Rs
+            </TextComp>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <TextComp type="content">Given by you: </TextComp>
+            <TextComp type="content" amountType="credit">
+              {parseFloat(given).toFixed(2)} Rs
+            </TextComp>
+          </View>
+          <View style={{marginTop: 15, marginBottom: 10}}>
+            <TextComp>Members: </TextComp>
+          </View>
+          <FlatList
+            data={props.teamData.users}
+            renderItem={renderItem}
+            keyExtractor={(item) => item._id}
+            showsVerticalScrollIndicator={false}></FlatList>
+          <View style={{marginTop: 20, alignItems: 'center'}}>
+            <Button
+              title="Add Member"
+              onPress={() => props.navigation.navigate('Add Member')}></Button>
+            <Button
+              title="Show simplified transactions to settle"
+              width={300}
+              buttonColor={'rgba(255, 20, 10, 1)'}
+              onPress={() =>
+                props.navigation.navigate('Simplified Transactions')
+              }></Button>
+          </View>
+        </ScrollView>
       </View>
     </>
   );

@@ -12,9 +12,13 @@ export const get = (params) => {
         withCredentials: true,
       })
       .then((data) => {
+        store.dispatch(actions.stopLoading());
+        store.dispatch(actions.setError(data.data.message));
         resolve(data.data);
       })
       .catch((e) => {
+        store.dispatch(actions.stopLoading());
+        store.dispatch(actions.setError(e.message));
         reject(e);
       });
   });
@@ -34,9 +38,14 @@ export const post = (params) => {
       )
       .then((data) => {
         store.dispatch(actions.stopLoading());
+        console.log(data.data);
+        store.dispatch(actions.setError(data.data.message));
         resolve(data.data);
       })
       .catch((e) => {
+        store.dispatch(actions.stopLoading());
+        console.log(e);
+        store.dispatch(actions.setError(e.message));
         reject(e);
       });
   });

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import Text from '../../../components/Text';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
@@ -26,39 +26,41 @@ const T1 = (props) => {
   };
 
   return (
-    <View style={{alignItems: 'center'}}>
-      <Input
-        isAmount={true}
-        onChangeText={(val) => setAmount(val)}
-        value={amount}
-        label="Enter Amount"
-        error={amount.trim() === '' || amount === '0'}
-        errorMessage="* required and non-zero"></Input>
-      <Text type="sub-content" color="red">
-        {isNaN(amount) ? 'Amount should be a number' : null}
-      </Text>
-      <Button
-        title="Add"
-        disabled={
-          amount.trim() === '' ||
-          amount === '0' ||
-          props.placeName.placeName.trim() === ''
-        }
-        onPress={() =>
-          addTransactions(
-            {[props.currentUser]: amount},
-            equalSplit(amount, props.team.currentTeamData.users),
-            props.team.currentTeamData.users,
-            {
-              teamId: props.team.currentTeam,
-              bill: 'None',
-              placeName: props.placeName.placeName,
-            },
-            setCompleted,
-            completed,
-          )
-        }></Button>
-    </View>
+    <ScrollView>
+      <View style={{alignItems: 'center'}}>
+        <Input
+          isAmount={true}
+          onChangeText={(val) => setAmount(val)}
+          value={amount}
+          label="Enter Amount"
+          error={amount.trim() === '' || amount === '0'}
+          errorMessage="* required and non-zero"></Input>
+        <Text type="sub-content" color="red">
+          {isNaN(amount) ? 'Amount should be a number' : null}
+        </Text>
+        <Button
+          title="Add"
+          disabled={
+            amount.trim() === '' ||
+            amount === '0' ||
+            props.placeName.placeName.trim() === ''
+          }
+          onPress={() =>
+            addTransactions(
+              {[props.currentUser]: amount},
+              equalSplit(amount, props.team.currentTeamData.users),
+              props.team.currentTeamData.users,
+              {
+                teamId: props.team.currentTeam,
+                bill: 'None',
+                placeName: props.placeName.placeName,
+              },
+              setCompleted,
+              completed,
+            )
+          }></Button>
+      </View>
+    </ScrollView>
   );
 };
 

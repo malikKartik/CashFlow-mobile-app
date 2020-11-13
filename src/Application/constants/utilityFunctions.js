@@ -127,7 +127,7 @@ export const addTransactions = (
         users.push(transaction.to);
       });
       socket.emit('notification', {
-        data: {users: users},
+        data: {users: users, teamId: specs.teamId},
         type: 'TRANSACTION_ADDED',
       });
     })

@@ -13,6 +13,7 @@ import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import * as actions from '../../../../store/actions';
 import {connect} from 'react-redux';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const AddMember = (props) => {
   const [username, setUsername] = useState('');
@@ -27,25 +28,27 @@ const AddMember = (props) => {
             source={require('../../../../../asstes/icons/back.png')}></Image>
         </TouchableWithoutFeedback>
         <Image source={addMember} style={styles.memberImage}></Image>
-        <TextComp type="heading" color={colors.primary} textAlign="center">
-          Add Member
-        </TextComp>
-        <Input
-          label="Username/Email"
-          placeholder="Enter username/Email"
-          value={username}
-          onChangeText={inputChangeHandler}></Input>
-        <Button
-          title="Add"
-          marginVertical={20}
-          alignSelf="center"
-          onPress={async () => {
-            await props.onAddMember({
-              teamid: props.currentTeam,
-              username: username,
-            });
-            props.navigation.navigate('Team');
-          }}></Button>
+        <ScrollView>
+          <TextComp type="heading" color={colors.primary} textAlign="center">
+            Add Member
+          </TextComp>
+          <Input
+            label="Username/Email"
+            placeholder="Enter username/Email"
+            value={username}
+            onChangeText={inputChangeHandler}></Input>
+          <Button
+            title="Add"
+            marginVertical={20}
+            alignSelf="center"
+            onPress={async () => {
+              await props.onAddMember({
+                teamid: props.currentTeam,
+                username: username,
+              });
+              props.navigation.navigate('Team');
+            }}></Button>
+        </ScrollView>
       </View>
     </View>
   );
