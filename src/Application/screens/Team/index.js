@@ -26,8 +26,11 @@ const Team = (props) => {
       userId: props.userId,
     });
     socket.on('notification', async (payload) => {
-      props.onGetTeam({id: props.currentTeam});
-      console.log(payload);
+      if (
+        payload.type === 'TRANSACTION_ADDED' &&
+        payload.data.teamId === props.currentTeam
+      )
+        props.onGetTeam({id: props.currentTeam});
     });
   }, []);
   const onTapLeft = () => {
