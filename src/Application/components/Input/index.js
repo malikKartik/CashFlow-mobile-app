@@ -43,6 +43,7 @@ const Input = (props) => {
             style={styles.inputComp}
             onChangeText={(e) => props.onChangeText(e)}
             value={props.value}
+            secureTextEntry={props.contentType === 'password' ? true : false}
             textContentType={
               props.contentType ? props.contentType : 'none'
             }></TextInput>

@@ -69,9 +69,8 @@ const IntroductionsScreens = (props) => {
         }}>
         <View style={{width: 100}}></View>
         <Button
-          onPress={skip}
           onPress={() => {
-            carousel.snapToNext();
+            data[currentItem].isLast ? skip() : carousel.snapToNext();
           }}
           title={data[currentItem].isLast ? "Let's Go" : 'Next'}
         />

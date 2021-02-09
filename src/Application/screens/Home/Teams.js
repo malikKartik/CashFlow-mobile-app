@@ -59,7 +59,7 @@ const Teams = (props) => {
     setSearchResult(props.teams);
   }, [props.teams]);
 
-  const swipeLeft = (progress, dragX, secret) => {
+  const swipeLeft = (progress, dragX, secret, teamId) => {
     return (
       <RectButton style={{display: 'flex', justifyContent: 'center'}}>
         <Card
@@ -69,9 +69,14 @@ const Teams = (props) => {
           elevation={0}
           backgroundColor={primary}
           center={
-            <Text style={{color: 'white'}} type={'sub-content'}>
-              Secret:{secret}
-            </Text>
+            <>
+              <Text style={{color: 'white'}} type={'sub-content'}>
+                Secret: {secret}
+              </Text>
+              <Text style={{color: 'white'}} type={'sub-content'}>
+                Team ID: {teamId}
+              </Text>
+            </>
           }></Card>
       </RectButton>
     );
@@ -109,7 +114,7 @@ const Teams = (props) => {
                   friction={1.5}
                   key={team._id}
                   renderRightActions={(progress, dragX) =>
-                    swipeLeft(progress, dragX, '12345')
+                    swipeLeft(progress, dragX, team.secret, team.teamId)
                   }
                   key={team._id}>
                   <Card

@@ -29,8 +29,22 @@ const Application = (props) => {
         }}>
         {!props.isLoggedIn ? (
           <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen
+              name="Login"
+              component={(props) => (
+                <Toast>
+                  <LoginScreen navigation={props.navigation}></LoginScreen>
+                </Toast>
+              )}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={(props) => (
+                <Toast>
+                  <SignupScreen navigation={props.navigation}></SignupScreen>
+                </Toast>
+              )}
+            />
           </>
         ) : (
           <>

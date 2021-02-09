@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import Tabs from '../../components/Tabs';
 import Teams from './Teams';
 import Join from './JoinATeam';
 import Create from './CreateATeam';
-
+const {height, width} = Dimensions.get('window');
 const Home = (props) => {
   const [activeTab, setActiveTab] = useState('left');
   const onTapLeft = () => {
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     display: 'flex',
     alignItems: 'center',
+    height: height - 100,
   },
 });
 

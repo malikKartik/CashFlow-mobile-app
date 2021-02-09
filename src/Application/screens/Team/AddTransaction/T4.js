@@ -78,7 +78,9 @@ const T2 = (props) => {
     );
   };
   return (
-    <ScrollView style={{width: '100%', display: 'flex'}}>
+    <ScrollView
+      style={{width: '100%', display: 'flex'}}
+      showsVerticalScrollIndicator={false}>
       <Text type="sub-heading" style={{alignSelf: 'flex-start'}} size={20}>
         Select who paid
       </Text>
